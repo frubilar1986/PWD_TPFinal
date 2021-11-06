@@ -32,6 +32,9 @@ class CompraEstado {
     $this->idcompraestado = $idcompraestado;
   }
 
+  /**
+   * @return Compra
+   */
   public function getObjCompra() {
     return  $this->objcompra;
   }
@@ -39,6 +42,9 @@ class CompraEstado {
     $this->objcompra = $objcompra;
   }
 
+  /**
+   * @return CompraEstadoTipo
+   */
   public function getObjCompraEstTipo() {
     return  $this->objcompraesttipo;
   }
@@ -113,7 +119,6 @@ class CompraEstado {
     return $resp;
   }
 
-
   public function modificar() {
     $resp = false;
     $base = new DataBase();
@@ -130,7 +135,6 @@ class CompraEstado {
     return $resp;
   }
 
-
   public function eliminar() {
     $resp = false;
     $base = new DataBase();
@@ -146,7 +150,6 @@ class CompraEstado {
     }
     return $resp;
   }
-
 
   public static function listar($parametro = "") {
     $arreglo = array();

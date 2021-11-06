@@ -46,6 +46,9 @@ class Menu {
     $this->medescripcion = $meDescrip;
   }
 
+  /**
+   * @return Menu
+   */
   public function getObjMePadre() {
     return $this->objmepadre;
   }
@@ -104,7 +107,6 @@ class Menu {
     return $resp;
   }
 
-
   public function modificar() {
     $resp = false;
     $base = new DataBase();
@@ -126,7 +128,6 @@ class Menu {
     return $resp;
   }
 
-
   public function eliminar() {
     $resp = false;
     $base = new DataBase();
@@ -142,7 +143,6 @@ class Menu {
     }
     return $resp;
   }
-
 
   public static function listar($parametro = "") {
     $arreglo = array();

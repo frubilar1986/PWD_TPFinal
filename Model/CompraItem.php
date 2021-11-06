@@ -30,6 +30,9 @@ class CompraItem {
     $this->idcompraitem = $idcompraitem;
   }
 
+  /**
+   * @return Producto
+   */
   public function getObjProducto() {
     return $this->objproducto;
   }
@@ -37,6 +40,9 @@ class CompraItem {
     $this->objproducto = $objproducto;
   }
 
+  /**
+   * @return Compra
+   */
   public function getObjCompra() {
     return $this->objcompra;
   }

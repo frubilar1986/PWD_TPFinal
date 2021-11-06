@@ -23,6 +23,9 @@ class MenuRol {
     $this->idmenu = $idmenu;
   }
 
+  /**
+   * @return Rol
+   */
   public function getObjRol() {
     return $this->objrol;
   }

@@ -74,7 +74,6 @@ class Rol {
     return $resp;
   }
 
-
   public function modificar() {
     $resp = false;
     $base = new DataBase();
@@ -91,7 +90,6 @@ class Rol {
     return $resp;
   }
 
-
   public function eliminar() {
     $resp = false;
     $base = new DataBase();
@@ -107,7 +105,6 @@ class Rol {
     }
     return $resp;
   }
-
 
   public static function listar($parametro = "") {
     $arreglo = array();

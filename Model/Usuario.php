@@ -28,28 +28,27 @@ class Usuario {
   public function getIdUsuario() {
     return $this->idusuario;
   }
-
   public function setIdUsuario($idusuario) {
     $this->idusuario = $idusuario;
   }
+
   public function getUsNombre() {
     return $this->usnombre;
   }
-
   public function setUsNombre($usnombre) {
     $this->usnombre = $usnombre;
   }
+
   public function getUsPass() {
     return $this->uspass;
   }
-
   public function setUsPass($uspass) {
     $this->uspass = $uspass;
   }
+
   public function getUsMail() {
     return $this->usmail;
   }
-
   public function setUsMail($usmail) {
     $this->usmail = $usmail;
   }
@@ -57,14 +56,13 @@ class Usuario {
   public function getUsDeshabilitado() {
     return $this->usdeshabilitado;
   }
-
   public function setUsDeshabilitado($usDeshabli) {
     $this->usdeshabilitado = $usDeshabli;
   }
+
   public function getMsjError() {
     return $this->msjerror;
   }
-
   public function setMsjError($msjerror) {
     $this->msjerror = $msjerror;
   }
@@ -90,7 +88,7 @@ class Usuario {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO usuario (  usnombre, uspass, usmail, usdeshabilitado ) VALUES ('{$this->getUsNombre()}','{$this->getUsPass()}','{$this->getUsMail()}','{$this->getUsDeshabilitado()}')";
+    $sql = "INSERT INTO usuario (usnombre, uspass, usmail, usdeshabilitado) VALUES ('{$this->getUsNombre()}','{$this->getUsPass()}','{$this->getUsMail()}','{$this->getUsDeshabilitado()}')";
 
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
@@ -105,7 +103,6 @@ class Usuario {
     }
     return $resp;
   }
-
 
   public function modificar() {
     $resp = false;
@@ -130,7 +127,6 @@ class Usuario {
     return $resp;
   }
 
-
   public function eliminar() {
     $resp = false;
     $base = new DataBase();
@@ -146,7 +142,6 @@ class Usuario {
     }
     return $resp;
   }
-
 
   public static function listar($parametro = "") {
     $arreglo = array();

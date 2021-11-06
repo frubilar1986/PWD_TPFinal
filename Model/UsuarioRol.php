@@ -2,38 +2,43 @@
 
 class UsuarioRol {
 
-  private $objidusuario;
-  private $objidrol;
+  private $objusuario;
+  private $objrol;
   private $msjerror;
 
   public function __construct() {
-    $this->objidusuario = null;
-    $this->objidrol = null;
+    $this->objusuario = null;
+    $this->objrol = null;
   }
 
-  public function setear($objidusuario, $objidrol) {
-    $this->setObjIdUsuario($objidusuario);
-    $this->setObjIdRol($objidrol);
+  public function setear($objusuario, $objrol) {
+    $this->setObjUsuario($objusuario);
+    $this->setObjIdRol($objrol);
   }
 
-  public function getObjIdUsuario() {
-    return $this->objidusuario;
+  /**
+   * @return Usuario
+   */
+  public function getObjUsuario() {
+    return $this->objusuario;
+  }
+  public function setObjUsuario($idusuario) {
+    $this->objusuario = $idusuario;
   }
 
-  public function setObjIdUsuario($idusuario) {
-    $this->objidusuario = $idusuario;
-  }
+  /**
+   * @return Rol
+   */
   public function getObjIdRol() {
-    return $this->objidrol;
+    return $this->objrol;
+  }
+  public function setObjIdRol($objrol) {
+    $this->objrol = $objrol;
   }
 
-  public function setObjIdRol($objidrol) {
-    $this->objidrol = $objidrol;
-  }
   public function getMsjError() {
     return $this->msjerror;
   }
-
   public function setMsjError($msjerror) {
     $this->msjerror = $msjerror;
   }
@@ -42,7 +47,7 @@ class UsuarioRol {
   public function cargar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "SELECT * FROM usuariorol WHERE idusuario = {$this->getObjIdUsuario()->getIdUsuario()}";
+    $sql = "SELECT * FROM usuariorol WHERE idusuario = {$this->getObjUsuario()->getIdUsuario()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
@@ -60,7 +65,7 @@ class UsuarioRol {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO usuariorol (  idusuario,idrol  ) VALUES ({$this->getObjIdUsuario()->getIdusuario()}, {$this->getObjIdRol()->getIdRol()})";
+    $sql = "INSERT INTO usuariorol (  idusuario,idrol  ) VALUES ({$this->getObjUsuario()->getIdusuario()}, {$this->getObjIdRol()->getIdRol()})";
 
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
@@ -76,11 +81,10 @@ class UsuarioRol {
     return $resp;
   }
 
-
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE usuariorol SET idrol ={$this->getobjIdRol()->getIdRol()} WHERE idusuario = {$this->getObjIdUsuario()->getIdUsuario()}";
+    $sql = "UPDATE usuariorol SET idrol ={$this->getobjIdRol()->getIdRol()} WHERE idusuario = {$this->getObjUsuario()->getIdUsuario()}";
     if ($base->Iniciar()) {
 
       if ($base->Ejecutar($sql)) {
@@ -95,11 +99,10 @@ class UsuarioRol {
     return $resp;
   }
 
-
   public function eliminar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "DELETE FROM usuariorol WHERE idusuario = {$this->getObjIdUsuario()->getIdUsuario()}";
+    $sql = "DELETE FROM usuariorol WHERE idusuario = {$this->getObjUsuario()->getIdUsuario()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;
@@ -111,7 +114,6 @@ class UsuarioRol {
     }
     return $resp;
   }
-
 
   public static function listar($parametro = "") {
     $arreglo = array();

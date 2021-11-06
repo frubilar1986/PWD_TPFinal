@@ -33,6 +33,9 @@ class Compra {
     $this->cofecha = $cofecha;
   }
 
+  /**
+   * @return Usuario
+   */
   public function getObjUsuario() {
     return  $this->objusuario;
   }
@@ -133,9 +136,11 @@ class Compra {
       if ($res > 0) {
         while ($row = $base->Registro()) {
           $obj = new Compra();
+
           $objusuario = new Usuario();
           $objusuario->setIdUsuario($row['idusuario']);
           $objusuario->cargar();
+
           $obj->setear($row['idcompra'], $row['cofecha'], $objusuario);
 
           array_push($arreglo, $obj);
