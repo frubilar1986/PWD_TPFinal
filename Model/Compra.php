@@ -8,7 +8,7 @@ class Compra {
   private $msjerror;
 
   public function __construct() {
-    $this->idcompra = '';
+    $this->idcompra = null;
     $this->cofecha = '';
     $this->objusuario = null;
   }
@@ -49,94 +49,91 @@ class Compra {
 
   public function cargar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "SELECT * FROM compra WHERE idcompra = " . $this->getIdCompra();
+    $base = new DataBase();
+    $sql = "SELECT * FROM compra WHERE idcompra = {$this->getIdCompra()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
         if ($res > 0) {
           $row = $base->Registro();
-          $objusuario = new usuario();
-          $objusuario->setIdUsuario($row['idusuario']);
-          $this->setear($row['idcompra'], $row['cofecha'], $objusuario);
+
+          $objUsuario = new Usuario();
+          $objUsuario->setIdUsuario($row['idusuario']);
+          $objUsuario->cargar();
+
+          $this->setear($row['idcompra'], $row['cofecha'], $objUsuario);
         }
       }
     } else {
-      $this->setMsjError("Tabla->listar: " . $base->getError());
+      $this->setMsjError("Tabla->listar: {$base->getError()}");
     }
     return $resp;
   }
 
   public function insertar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "INSERT INTO compra ( cofecha, idusuario ) VALUES ('" . $this->getCoFecha() . "'," . $this->getObjUsuario()->getIdUsuario() . ")";
+    $base = new DataBase();
+    $sql = "INSERT INTO compra (cofecha, idusuario) VALUES ('{$this->getCoFecha()}', {$this->getObjUsuario()->getIdUsuario()})";
 
-    //echo $sql;
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
         $this->setIdCompra($elId);
-
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+        $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
       }
     } else {
-      $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+      $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
     }
     return $resp;
   }
 
   public function modificar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "UPDATE compra SET cofecha = '" . $this->getCoFecha() . "', idusuario = " . $this->getObjUsuario()->getIdUsuario() . " WHERE idcompra = " . $this->getIdCompra();
-    //echo $sql;
+    $base = new DataBase();
+    $sql = "UPDATE compra SET cofecha = '{$this->getCoFecha()}', idusuario = {$this->getObjUsuario()->getIdUsuario()} WHERE idcompra = {$this->getIdCompra()}";
     if ($base->Iniciar()) {
-
       if ($base->Ejecutar($sql)) {
-
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: " .  $base->getError());
+        $this->setMsjError("Tabla->modificar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->modificar: " . $base->getError());
+      $this->setMsjError("Tabla->modificar: {$base->getError()}");
     }
     return $resp;
   }
 
   public function eliminar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "DELETE FROM compra WHERE idcompra = " . $this->getIdCompra();
+    $base = new DataBase();
+    $sql = "DELETE FROM compra WHERE idcompra = {$this->getIdCompra()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;
       } else {
-        $this->setMsjError("Tabla->eliminar: " . $base->getError());
+        $this->setMsjError("Tabla->eliminar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->eliminar: " . $base->getError());
+      $this->setMsjError("Tabla->eliminar: {$base->getError()}");
     }
     return $resp;
   }
 
   public static function listar($parametro = "") {
     $arreglo = array();
-    $base = new dataBase();
+    $base = new DataBase();
     $sql = "SELECT * FROM compra ";
     if ($parametro != "") {
-      $sql .= ' WHERE ' . $parametro;
+      $sql .= " WHERE {$parametro}";
     }
-    // echo $sql;
+
     $res = $base->Ejecutar($sql);
     if ($res > -1) {
       if ($res > 0) {
-
         while ($row = $base->Registro()) {
-          $obj = new compra();
-          $objusuario = new usuario();
+          $obj = new Compra();
+          $objusuario = new Usuario();
           $objusuario->setIdUsuario($row['idusuario']);
           $objusuario->cargar();
           $obj->setear($row['idcompra'], $row['cofecha'], $objusuario);
@@ -144,8 +141,6 @@ class Compra {
           array_push($arreglo, $obj);
         }
       }
-    } else {
-      // $this->setmensajeoperacion("Tabla->listar: ".$base->getError());
     }
 
     return $arreglo;

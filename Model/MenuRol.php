@@ -2,49 +2,45 @@
 
 class MenuRol {
 
-  private $idMenu;
-  private $objIdRol;
-  private $msjError;
+  private $idmenu;
+  private $objrol;
+  private $msjerror;
 
   public function __construct() {
-    $this->idMenu = "";
-    $this->objIdRol = null;
+    $this->idmenu = null;
+    $this->objrol = null;
   }
 
-  public function setear($idMenu, $objidRol) {
-    $this->setIdMenu($idMenu);
-    $this->setobjIdRol($objidRol);
+  public function setear($idmenu, $objrol) {
+    $this->setIdMenu($idmenu);
+    $this->setObjRol($objrol);
   }
 
   public function getIdMenu() {
-    return $this->idMenu;
+    return $this->idmenu;
+  }
+  public function setIdMenu($idmenu) {
+    $this->idmenu = $idmenu;
   }
 
-  public function setIdMenu($idMenu) {
-    $this->idMenu = $idMenu;
+  public function getObjRol() {
+    return $this->objrol;
   }
-  public function getobjIdRol() {
-    return $this->objIdRol;
+  public function setObjRol($objrol) {
+    $this->objrol = $objrol;
   }
 
-  public function setobjIdRol($objidRol) {
-    $this->objIdRol = $objidRol;
-  }
   public function getMsjError() {
-    return $this->msjError;
+    return $this->msjerror;
   }
-
-  public function setMsjError($msjError) {
-    $this->msjError = $msjError;
+  public function setMsjError($msjerror) {
+    $this->msjerror = $msjerror;
   }
-
-  //Metodos de comportamiento con la base de datos
-  //------------------------------------------------
 
   public function cargar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "SELECT * FROM menuRol WHERE idmenu = " . $this->getIdMenu();
+    $base = new DataBase();
+    $sql = "SELECT * FROM menurol WHERE idmenu = {$this->getIdMenu()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
@@ -54,95 +50,87 @@ class MenuRol {
         }
       }
     } else {
-      $this->setMsjError("Tabla->listar: " . $base->getError());
+      $this->setMsjError("Tabla->listar: {$base->getError()}");
     }
     return $resp;
   }
 
   public function insertar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "INSERT INTO menurol (  idmenu, idrol  ) VALUES (" . $this->getIdMenu() . "," . $this->getobjIdRol()->getIdRol() . ")";
+    $base = new DataBase();
+    $sql = "INSERT INTO menurol (idmenu, idrol) VALUES ({$this->getIdMenu()},{$this->getObjRol()->getIdRol()})";
 
-    //echo $sql;
     if ($base->Iniciar()) {
-      if ($elId = $base->Ejecutar($sql)) {
-        $this->setIdMenu($elId);
+      if ($id = $base->Ejecutar($sql)) {
+        $this->setIdMenu($id);
 
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+        $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
       }
     } else {
-      $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+      $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
     }
     return $resp;
   }
-
 
   public function modificar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "UPDATE menurol SET idrol = " . $this->getobjIdRol()->getIdRol() . " WHERE idmenu = " . $this->getIdMenu();
-    //echo $sql;
+    $base = new DataBase();
+    $sql = "UPDATE menurol SET idrol = {$this->getObjRol()->getIdRol()} WHERE idmenu = {$this->getIdMenu()}";
     if ($base->Iniciar()) {
-
       if ($base->Ejecutar($sql)) {
-
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: " .  $base->getError());
+        $this->setMsjError("Tabla->modificar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->modificar: " . $base->getError());
+      $this->setMsjError("Tabla->modificar: {$base->getError()}");
     }
     return $resp;
   }
 
-
   public function eliminar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "DELETE FROM menurol WHERE idmenu=" . $this->getIdMenu();
+    $base = new DataBase();
+    $sql = "DELETE FROM menurol WHERE idmenu={$this->getIdMenu()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;
       } else {
-        $this->setMsjError("Tabla->eliminar: " . $base->getError());
+        $this->setMsjError("Tabla->eliminar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->eliminar: " . $base->getError());
+      $this->setMsjError("Tabla->eliminar: {$base->getError()}");
     }
     return $resp;
   }
 
-
   public static function listar($parametro = "") {
     $arreglo = array();
-    $base = new dataBase();
+    $base = new DataBase();
     $sql = "SELECT * FROM menurol ";
     if ($parametro != "") {
-      $sql .= ' WHERE ' . $parametro;
+      $sql .= " WHERE {$parametro}";
     }
-    // echo $sql;
     $res = $base->Ejecutar($sql);
     if ($res > -1) {
       if ($res > 0) {
 
         while ($row = $base->Registro()) {
-          $obj = new menuRol();
-          $objRol = new rol();
+          $obj = new MenuRol();
+
+          $objRol = new Rol();
           $objRol->setIdRol($row['idrol']);
           $objRol->cargar();
+
           $obj->setear($row['idmenu'], $objRol);
 
           array_push($arreglo, $obj);
         }
       }
-    } else {
-      // $this->setmensajeoperacion("Tabla->listar: ".$base->getError());
     }
 
     return $arreglo;
   }
-}//fin clase menu rol
+}

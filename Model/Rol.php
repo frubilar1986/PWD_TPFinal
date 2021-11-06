@@ -2,46 +2,45 @@
 
 class Rol {
 
-  private $idRol;
+  private $idrol;
   private $rodescripcion;
   private $msjError;
 
   public function __construct() {
-    $this->idRol = "";
-    $this->rolDescrip = "";
+    $this->idrol = null;
+    $this->rodescripcion = "";
   }
 
-  public function setear($idRol, $RolDescrip) {
-    $this->setIdRol($idRol);
-    $this->setRolDescrip($RolDescrip);
+  public function setear($idrol, $rodescripcion) {
+    $this->setIdRol($idrol);
+    $this->setRoDescripcion($rodescripcion);
   }
 
   public function getIdRol() {
-    return $this->idRol;
+    return $this->idrol;
+  }
+  public function setIdRol($idrol) {
+    $this->idrol = $idrol;
   }
 
-  public function setIdRol($idRol) {
-    $this->idRol = $idRol;
+  public function getRoDescripcion() {
+    return $this->rodescripcion;
   }
-  public function getRolDescrip() {
-    return $this->rolDescrip;
+  public function setRoDescripcion($rodescripcion) {
+    $this->rodescripcion = $rodescripcion;
   }
 
-  public function setRolDescrip($rolDescrip) {
-    $this->rolDescrip = $rolDescrip;
-  }
   public function getMsjError() {
     return $this->msjError;
   }
-
   public function setMsjError($msjError) {
     $this->msjError = $msjError;
   }
 
   public function cargar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "SELECT * FROM rol WHERE idrol = " . $this->getIdRol();
+    $base = new DataBase();
+    $sql = "SELECT * FROM rol WHERE idrol = {$this->getIdRol()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
@@ -51,27 +50,26 @@ class Rol {
         }
       }
     } else {
-      $this->setMsjError("Tabla->listar: " . $base->getError());
+      $this->setMsjError("Tabla->listar: {$base->getError()}");
     }
     return $resp;
   }
 
   public function insertar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "INSERT INTO rol (  rodescripcion  ) VALUES ('" . $this->getRolDescrip() . "')";
+    $base = new DataBase();
+    $sql = "INSERT INTO rol (rodescripcion) VALUES ('{$this->getRoDescripcion()}')";
 
-    //echo $sql;
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
         $this->setIdRol($elId);
 
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+        $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
       }
     } else {
-      $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+      $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
     }
     return $resp;
   }
@@ -79,19 +77,16 @@ class Rol {
 
   public function modificar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "UPDATE rol SET rodescripcion =" . $this->getRolDescrip() . " WHERE idrol = " . $this->getIdRol();
-    //echo $sql;
+    $base = new DataBase();
+    $sql = "UPDATE rol SET rodescripcion ={$this->getRoDescripcion()} WHERE idrol = {$this->getIdRol()}";
     if ($base->Iniciar()) {
-
       if ($base->Ejecutar($sql)) {
-
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: " .  $base->getError());
+        $this->setMsjError("Tabla->modificar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->modificar: " . $base->getError());
+      $this->setMsjError("Tabla->modificar: {$base->getError()}");
     }
     return $resp;
   }
@@ -99,16 +94,16 @@ class Rol {
 
   public function eliminar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "DELETE FROM rol WHERE idrol=" . $this->getIdRol();
+    $base = new DataBase();
+    $sql = "DELETE FROM rol WHERE idrol={$this->getIdRol()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
-        return true;
+        $resp = true;
       } else {
-        $this->setMsjError("Tabla->eliminar: " . $base->getError());
+        $this->setMsjError("Tabla->eliminar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->eliminar: " . $base->getError());
+      $this->setMsjError("Tabla->eliminar: {$base->getError()}");
     }
     return $resp;
   }
@@ -116,27 +111,24 @@ class Rol {
 
   public static function listar($parametro = "") {
     $arreglo = array();
-    $base = new dataBase();
+    $base = new DataBase();
     $sql = "SELECT * FROM rol ";
     if ($parametro != "") {
-      $sql .= ' WHERE ' . $parametro;
+      $sql .= " WHERE {$parametro}";
     }
-    // echo $sql;
     $res = $base->Ejecutar($sql);
     if ($res > -1) {
       if ($res > 0) {
 
         while ($row = $base->Registro()) {
-          $obj = new rol();
+          $obj = new Rol();
           $obj->setear($row['idrol'], $row['rodescripcion']);
 
           array_push($arreglo, $obj);
         }
       }
-    } else {
-      // $this->setmensajeoperacion("Tabla->listar: ".$base->getError());
     }
 
     return $arreglo;
   }
-}//fin clase rol
+}

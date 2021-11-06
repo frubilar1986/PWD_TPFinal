@@ -2,82 +2,75 @@
 
 class Menu {
 
-  private $idMenu;
-  private $meNombre;
-  private $meDescripcion;
-  private $objsMeIdPadre;
-  private $meDeshabilitado;
-  private $msjError;
-  //private $;
+  private $idmenu;
+  private $menombre;
+  private $medescripcion;
+  private $objmepadre;
+  private $medeshabilitado;
+  private $msjerror;
 
   public function __construct() {
-    $this->idMenu = '';
-    $this->meNombre = '';
-    $this->meDescripcion = '';
-    $this->objsMeIdPadre = null;
-    $this->meDeshabilitado = '';
-    $this->msjError = '';
+    $this->idmenu = null;
+    $this->menombre = '';
+    $this->medescripcion = '';
+    $this->objmepadre = null;
+    $this->medeshabilitado = '';
   }
 
-  public function setear($idMenu, $meNombre, $meDescrip, $objsMeIdPadre, $meDeshabilitado) {
-    $this->setIdMenu($idMenu);
-    $this->setMeNombre($meNombre);
+  public function setear($idmenu, $menombre, $meDescrip, $objmepadre, $medeshabilitado) {
+    $this->setIdMenu($idmenu);
+    $this->setMeNombre($menombre);
     $this->setMeDescripcion($meDescrip);
-    $this->setObjsMeIdPadre($objsMeIdPadre);
-    $this->setMeDeshabilitado($meDeshabilitado);
+    $this->setObjMePadre($objmepadre);
+    $this->setMeDeshabilitado($medeshabilitado);
   }
 
   public function getIdMenu() {
-    return $this->idMenu;
+    return $this->idmenu;
+  }
+  public function setIdMenu($idmenu) {
+    $this->idmenu = $idmenu;
   }
 
-  public function setIdMenu($idMenu) {
-    $this->idMenu = $idMenu;
-  }
   public function getMeNombre() {
-    return $this->meNombre;
+    return $this->menombre;
+  }
+  public function setMeNombre($menombre) {
+    $this->menombre = $menombre;
   }
 
-  public function setMeNombre($meNombre) {
-    $this->meNombre = $meNombre;
-  }
   public function getMeDescripcion() {
-    return $this->meDescripcion;
+    return $this->medescripcion;
   }
-
   public function setMeDescripcion($meDescrip) {
-    $this->meDescripcion = $meDescrip;
-  }
-  public function getObjsMeIdPadre() {
-    //ver mapeo Obj
-    return $this->meIdPadre;
+    $this->medescripcion = $meDescrip;
   }
 
-  public function setObjsMeIdPadre($idPadre) {
-    $this->meIdPadre = $idPadre;
+  public function getObjMePadre() {
+    return $this->objmepadre;
   }
+  public function setObjMePadre($idPadre) {
+    $this->objmepadre = $idPadre;
+  }
+
   public function getMeDeshabilitado() {
-    return $this->meDeshabilitado;
+    return $this->medeshabilitado;
   }
-
   public function setMeDeshabilitado($meDeshabli) {
-    $this->meDeshabilitado = $meDeshabli;
+    $this->medeshabilitado = $meDeshabli;
   }
+
   public function getMsjError() {
-    return $this->msjError;
+    return $this->msjerror;
   }
-
-  public function setMsjError($msjError) {
-    $this->msjError = $msjError;
+  public function setMsjError($msjerror) {
+    $this->msjerror = $msjerror;
   }
-
-  //Metodos de comportamiento con la base de datos
-  //------------------------------------------------
 
   public function cargar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "SELECT * FROM menu WHERE idmenu = " . $this->getIdMenu();
+    $base = new DataBase();
+    $sql = "SELECT * FROM menu WHERE idmenu = {$this->getIdMenu()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
@@ -87,27 +80,26 @@ class Menu {
         }
       }
     } else {
-      $this->setMsjError("Tabla->listar: " . $base->getError());
+      $this->setMsjError("Tabla->listar: {$base->getError()}");
     }
     return $resp;
   }
 
   public function insertar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "INSERT INTO menu ( menombre,medescripcion, idpadre,medeshabilitado) VALUES ('" . $this->getMeNombre() . "','" . $this->getMeDescripcion() . "'," . $this->getObjsMeIdPadre()->getIdMenu() . ",'" . $this->getMeDeshabilitado() . "')";
+    $base = new DataBase();
+    $sql = "INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado) VALUES ('{$this->getMeNombre()}','{$this->getMeDescripcion()}',{$this->getObjMePadre()->getIdMenu()},'{$this->getMeDeshabilitado()}')";
 
-    //echo $sql;
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
         $this->setIdMenu($elId);
 
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+        $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
       }
     } else {
-      $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+      $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
     }
     return $resp;
   }
@@ -115,27 +107,21 @@ class Menu {
 
   public function modificar() {
     $resp = false;
-    $base = new dataBase();
+    $base = new DataBase();
 
     if ($this->getMeDeshabilitado() != 'null') {
-      // echo "verdadero";
-      $sql = "UPDATE menu SET menombre='" . $this->getMeNombre() . "', medescripcion='" . $this->getMeDescripcion() . "', idpadre=" . $this->getObjsMeIdPadre()->getIdMenu() . ", medeshabilitado = '" . $this->getMeDeshabilitado() . "  WHERE idmenu = " . $this->getIdMenu();
+      $sql = "UPDATE menu SET menombre='{$this->getMeNombre()}', medescripcion='{$this->getMeDescripcion()}', idpadre={$this->getObjMePadre()->getIdMenu()}, medeshabilitado = '{$this->getMeDeshabilitado()}  WHERE idmenu = {$this->getIdMenu()}";
     } else {
-      // $this->setUsDeshabilitado(null)
-      //echo "Faslso";
-      $sql = "UPDATE menu SET menombre = '" . $this->getMeNombre() . "', medescripcion = '" . $this->getMeDescripcion() . "', idpadre = " . $this->getObjsMeIdPadre()->getIdMenu() . ", medeshabilitado = NULL WHERE idmenu = " . $this->getIdMenu();
+      $sql = "UPDATE menu SET menombre = '{$this->getMeNombre()}', medescripcion = '{$this->getMeDescripcion()}', idpadre = {$this->getObjMePadre()->getIdMenu()}, medeshabilitado = NULL WHERE idmenu = {$this->getIdMenu()}";
     }
-    //echo $sql;
     if ($base->Iniciar()) {
-
       if ($base->Ejecutar($sql)) {
-
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: " .  $base->getError());
+        $this->setMsjError("Tabla->modificar: { $base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->modificar: " . $base->getError());
+      $this->setMsjError("Tabla->modificar: {$base->getError()}");
     }
     return $resp;
   }
@@ -143,16 +129,16 @@ class Menu {
 
   public function eliminar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "DELETE FROM menu WHERE idmenu=" . $this->getIdMenu();
+    $base = new DataBase();
+    $sql = "DELETE FROM menu WHERE idmenu={$this->getIdMenu()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;
       } else {
-        $this->setMsjError("Tabla->eliminar: " . $base->getError());
+        $this->setMsjError("Tabla->eliminar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->eliminar: " . $base->getError());
+      $this->setMsjError("Tabla->eliminar: {$base->getError()}");
     }
     return $resp;
   }
@@ -160,20 +146,17 @@ class Menu {
 
   public static function listar($parametro = "") {
     $arreglo = array();
-    $base = new dataBase();
+    $base = new DataBase();
     $sql = "SELECT * FROM menu ";
     if ($parametro != "") {
-      $sql .= ' WHERE ' . $parametro;
+      $sql .= " WHERE {$parametro}";
     }
-    // echo $sql;
     $res = $base->Ejecutar($sql);
     if ($res > -1) {
       if ($res > 0) {
-
         while ($row = $base->Registro()) {
-          $obj = new menu();
-          $objMenuPadre = new menu();
-          //if $row['idpadre'] == ''? obj = null ??????
+          $obj = new Menu();
+          $objMenuPadre = new Menu();
           $objMenuPadre->setIdMenu($row['idpadre']);
           $objMenuPadre->cargar();
           $obj->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $objMenuPadre, $row['medeshabilitado']);
@@ -181,10 +164,8 @@ class Menu {
           array_push($arreglo, $obj);
         }
       }
-    } else {
-      // $this->setmensajeoperacion("Tabla->listar: ".$base->getError());
     }
 
     return $arreglo;
   }
-}//fin clase menu
+}

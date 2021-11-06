@@ -15,7 +15,7 @@ class DataBase extends PDO {
   public function __construct() {
     $this->engine = 'mysql';
     $this->host = 'localhost';
-    $this->database = 'carrito_compra';
+    $this->database = 'bdcarritocompras';
     $this->user = 'root';
     $this->pass = '';
     $this->debug = true;

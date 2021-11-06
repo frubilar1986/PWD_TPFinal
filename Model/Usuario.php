@@ -2,82 +2,77 @@
 
 class Usuario {
 
-  private $idUsuario;
-  private $usNombre;
-  private $usPass;
-  private $usMail;
-  private $usDeshabilitado;
-  private $msjError;
-  //private $;
+  private $idusuario;
+  private $usnombre;
+  private $uspass;
+  private $usmail;
+  private $usdeshabilitado;
+  private $msjerror;
 
   public function __construct() {
-    $this->idUsuario = '';
-    $this->usNombre = '';
-    $this->usPass = '';
-    $this->usMail = null;
-    $this->usDeshabilitado = '';
-    $this->msjError = '';
+    $this->idusuario = null;
+    $this->usnombre = '';
+    $this->uspass = '';
+    $this->usmail = '';
+    $this->usdeshabilitado = '';
   }
 
-  public function setear($idUsuario, $usNombre, $usPass, $usMail, $usDeshabilitado) {
-    $this->setIdUsuario($idUsuario);
-    $this->setUsNombre($usNombre);
-    $this->setUsPass($usPass);
-    $this->setUsMail($usMail);
-    $this->setUsDeshabilitado($usDeshabilitado);
+  public function setear($idusuario, $usnombre, $uspass, $usmail, $usdeshabilitado) {
+    $this->setIdUsuario($idusuario);
+    $this->setUsNombre($usnombre);
+    $this->setUsPass($uspass);
+    $this->setUsMail($usmail);
+    $this->setUsDeshabilitado($usdeshabilitado);
   }
 
   public function getIdUsuario() {
-    return $this->idUsuario;
+    return $this->idusuario;
   }
 
-  public function setIdUsuario($idUsuario) {
-    $this->idUsuario = $idUsuario;
+  public function setIdUsuario($idusuario) {
+    $this->idusuario = $idusuario;
   }
   public function getUsNombre() {
-    return $this->usNombre;
+    return $this->usnombre;
   }
 
-  public function setUsNombre($usNombre) {
-    $this->usNombre = $usNombre;
+  public function setUsNombre($usnombre) {
+    $this->usnombre = $usnombre;
   }
   public function getUsPass() {
-    return $this->usPass;
+    return $this->uspass;
   }
 
-  public function setUsPass($usPass) {
-    $this->usPass = $usPass;
+  public function setUsPass($uspass) {
+    $this->uspass = $uspass;
   }
   public function getUsMail() {
-    return $this->usMail;
+    return $this->usmail;
   }
 
-  public function setUsMail($usMail) {
-    $this->usMail = $usMail;
+  public function setUsMail($usmail) {
+    $this->usmail = $usmail;
   }
 
   public function getUsDeshabilitado() {
-    return $this->usDeshabilitado;
+    return $this->usdeshabilitado;
   }
 
   public function setUsDeshabilitado($usDeshabli) {
-    $this->usDeshabilitado = $usDeshabli;
+    $this->usdeshabilitado = $usDeshabli;
   }
   public function getMsjError() {
-    return $this->msjError;
+    return $this->msjerror;
   }
 
-  public function setMsjError($msjError) {
-    $this->msjError = $msjError;
+  public function setMsjError($msjerror) {
+    $this->msjerror = $msjerror;
   }
-
-  //Metodos de comportamiento con la base de datos
-  //------------------------------------------------
 
   public function cargar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "SELECT * FROM usuario WHERE idusuario = " . $this->getIdUsuario();
+    $base = new DataBase();
+    $sql = "SELECT * FROM usuario WHERE idusuario = {$this->getIdUsuario()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
@@ -87,27 +82,26 @@ class Usuario {
         }
       }
     } else {
-      $this->setMsjError("Tabla->listar: " . $base->getError());
+      $this->setMsjError("Tabla->listar: {$base->getError()}");
     }
     return $resp;
   }
 
   public function insertar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "INSERT INTO usuario (  usnombre, uspass, usmail, usdeshabilitado ) VALUES ('" . $this->getUsNombre() . "','" . $this->getUsPass() . "','" . $this->getUsMail() . "','" . $this->getUsDeshabilitado() . "')";
+    $base = new DataBase();
+    $sql = "INSERT INTO usuario (  usnombre, uspass, usmail, usdeshabilitado ) VALUES ('{$this->getUsNombre()}','{$this->getUsPass()}','{$this->getUsMail()}','{$this->getUsDeshabilitado()}')";
 
-    //echo $sql;
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
         $this->setIdUsuario($elId);
 
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+        $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
       }
     } else {
-      $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+      $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
     }
     return $resp;
   }
@@ -115,27 +109,23 @@ class Usuario {
 
   public function modificar() {
     $resp = false;
-    $base = new dataBase();
+    $base = new DataBase();
 
     if ($this->getUsDeshabilitado() != 'null') {
-      // echo "verdadero";
-      $sql = "UPDATE usuario SET usnombre='" . $this->getUsNombre() . "', uspass='" . $this->getUsPass() . "', usmail= '" . $this->getUsMail() . "' , usdeshabilitado = '" . $this->getUsDeshabilitado() . "  WHERE idusuario = " . $this->getIdUsuario();
+      $sql = "UPDATE usuario SET usnombre='{$this->getUsNombre()}', uspass='{$this->getUsPass()}', usmail= '{$this->getUsMail()}' , usdeshabilitado = '{$this->getUsDeshabilitado()}  WHERE idusuario = {$this->getIdUsuario()}";
     } else {
-      // $this->setUsDeshabilitado(null)
-      //echo "Faslso";
-      $sql = "UPDATE usuario SET usnombre = '" . $this->getUsNombre() . "', uspass = '" . $this->getUsPass() . "', usmail = '" . $this->getUsMail() . "', usdeshabilitado = NULL WHERE idusuario = " . $this->getIdUsuario();
+      $sql = "UPDATE usuario SET usnombre = '{$this->getUsNombre()}', uspass = '{$this->getUsPass()}', usmail = '{$this->getUsMail()}', usdeshabilitado = NULL WHERE idusuario = {$this->getIdUsuario()}";
     }
-    //echo $sql;
     if ($base->Iniciar()) {
 
       if ($base->Ejecutar($sql)) {
 
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: " .  $base->getError());
+        $this->setMsjError("Tabla->modificar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->modificar: " . $base->getError());
+      $this->setMsjError("Tabla->modificar: {$base->getError()}");
     }
     return $resp;
   }
@@ -143,16 +133,16 @@ class Usuario {
 
   public function eliminar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "DELETE FROM usuario WHERE idusuario=" . $this->getIdUsuario();
+    $base = new DataBase();
+    $sql = "DELETE FROM usuario WHERE idusuario={$this->getIdUsuario()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;
       } else {
-        $this->setMsjError("Tabla->eliminar: " . $base->getError());
+        $this->setMsjError("Tabla->eliminar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->eliminar: " . $base->getError());
+      $this->setMsjError("Tabla->eliminar: {$base->getError()}");
     }
     return $resp;
   }
@@ -160,28 +150,24 @@ class Usuario {
 
   public static function listar($parametro = "") {
     $arreglo = array();
-    $base = new dataBase();
+    $base = new DataBase();
     $sql = "SELECT * FROM usuario ";
     if ($parametro != "") {
-      $sql .= ' WHERE ' . $parametro;
+      $sql .= " WHERE {$parametro}";
     }
-    // echo $sql;
     $res = $base->Ejecutar($sql);
     if ($res > -1) {
       if ($res > 0) {
 
         while ($row = $base->Registro()) {
-          $obj = new usuario();
+          $obj = new Usuario();
 
           $obj->setear($row['idusuario'], $row['usnombre'], $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
 
           array_push($arreglo, $obj);
         }
       }
-    } else {
-      // $this->setmensajeoperacion("Tabla->listar: ".$base->getError());
     }
-
     return $arreglo;
   }
-}//fin clase menu
+}

@@ -2,50 +2,47 @@
 
 class UsuarioRol {
 
-  private $objIdUsuario;
-  private $objIdRol;
-  private $msjError;
+  private $objidusuario;
+  private $objidrol;
+  private $msjerror;
 
   public function __construct() {
-    $this->objIdUsuario = null;
-    $this->objIdRol = "";
+    $this->objidusuario = null;
+    $this->objidrol = null;
   }
 
-  public function setear($objIdUsuario, $objIdRol) {
-    $this->setObjIdUsuario($objIdUsuario);
-    $this->setObjIdRol($objIdRol);
+  public function setear($objidusuario, $objidrol) {
+    $this->setObjIdUsuario($objidusuario);
+    $this->setObjIdRol($objidrol);
   }
 
   public function getObjIdUsuario() {
-    return $this->objIdUsuario;
+    return $this->objidusuario;
   }
 
   public function setObjIdUsuario($idusuario) {
-    $this->objIdUsuario = $idusuario;
+    $this->objidusuario = $idusuario;
   }
   public function getObjIdRol() {
-    return $this->objIdRol;
+    return $this->objidrol;
   }
 
-  public function setObjIdRol($objIdRol) {
-    $this->objIdRol = $objIdRol;
+  public function setObjIdRol($objidrol) {
+    $this->objidrol = $objidrol;
   }
   public function getMsjError() {
-    return $this->msjError;
+    return $this->msjerror;
   }
 
-  public function setMsjError($msjError) {
-    $this->msjError = $msjError;
+  public function setMsjError($msjerror) {
+    $this->msjerror = $msjerror;
   }
 
-
-  //Metodos de comportamiento con la base de datos
-  //------------------------------------------------
 
   public function cargar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "SELECT * FROM usuariorol WHERE idusuario = " . $this->getObjIdUsuario()->getIdUsuario();
+    $base = new DataBase();
+    $sql = "SELECT * FROM usuariorol WHERE idusuario = {$this->getObjIdUsuario()->getIdUsuario()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
@@ -55,27 +52,26 @@ class UsuarioRol {
         }
       }
     } else {
-      $this->setMsjError("Tabla->listar: " . $base->getError());
+      $this->setMsjError("Tabla->listar: {$base->getError()}");
     }
     return $resp;
   }
 
   public function insertar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "INSERT INTO usuariorol (  idusuario,idrol  ) VALUES (" . $this->getObjIdUsuario()->getIdusuario() . "," . $this->getObjIdRol()->getIdRol() . ")";
+    $base = new DataBase();
+    $sql = "INSERT INTO usuariorol (  idusuario,idrol  ) VALUES ({$this->getObjIdUsuario()->getIdusuario()}, {$this->getObjIdRol()->getIdRol()})";
 
-    //echo $sql;
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
         $this->setObjIdRol($elId);
 
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+        $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
       }
     } else {
-      $this->setMsjError("Tabla->insertar: " . $base->getError()[2]);
+      $this->setMsjError("Tabla->insertar: {$base->getError()[2]}");
     }
     return $resp;
   }
@@ -83,19 +79,18 @@ class UsuarioRol {
 
   public function modificar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "UPDATE usuariorol SET idrol =" . $this->getobjIdRol()->getIdRol() . " WHERE idusuario = " . $this->getObjIdUsuario()->getIdUsuario();
-    //echo $sql;
+    $base = new DataBase();
+    $sql = "UPDATE usuariorol SET idrol ={$this->getobjIdRol()->getIdRol()} WHERE idusuario = {$this->getObjIdUsuario()->getIdUsuario()}";
     if ($base->Iniciar()) {
 
       if ($base->Ejecutar($sql)) {
 
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: " .  $base->getError());
+        $this->setMsjError("Tabla->modificar: { $base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->modificar: " . $base->getError());
+      $this->setMsjError("Tabla->modificar: {$base->getError()}");
     }
     return $resp;
   }
@@ -103,16 +98,16 @@ class UsuarioRol {
 
   public function eliminar() {
     $resp = false;
-    $base = new dataBase();
-    $sql = "DELETE FROM usuariorol WHERE idusuario = " . $this->getObjIdUsuario()->getIdUsuario();
+    $base = new DataBase();
+    $sql = "DELETE FROM usuariorol WHERE idusuario = {$this->getObjIdUsuario()->getIdUsuario()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;
       } else {
-        $this->setMsjError("Tabla->eliminar: " . $base->getError());
+        $this->setMsjError("Tabla->eliminar: {$base->getError()}");
       }
     } else {
-      $this->setMsjError("Tabla->eliminar: " . $base->getError());
+      $this->setMsjError("Tabla->eliminar: {$base->getError()}");
     }
     return $resp;
   }
@@ -120,27 +115,25 @@ class UsuarioRol {
 
   public static function listar($parametro = "") {
     $arreglo = array();
-    $base = new dataBase();
+    $base = new DataBase();
     $sql = "SELECT * FROM usuariorol ";
     if ($parametro != "") {
-      $sql .= ' WHERE ' . $parametro;
+      $sql .= " WHERE {$parametro}";
     }
-    // echo $sql;
+
     $res = $base->Ejecutar($sql);
     if ($res > -1) {
       if ($res > 0) {
 
         while ($row = $base->Registro()) {
-          $obj = new usuariorol();
+          $obj = new UsuarioRol();
           $obj->setear($row['idusuario'], $row['idrol']);
 
           array_push($arreglo, $obj);
         }
       }
-    } else {
-      // $this->setmensajeoperacion("Tabla->listar: ".$base->getError());
     }
 
     return $arreglo;
   }
-}//fin clase rol
+}
