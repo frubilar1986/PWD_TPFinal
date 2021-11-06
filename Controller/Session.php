@@ -54,11 +54,9 @@ class Session {
     $this->setColRoles($colRoles);
     return $this->colRoles;
   }
-
   public function setColRoles($colRoles) {
     $this->colRoles = $colRoles;
   }
-
 
   public function validar() {
     $resp = false;

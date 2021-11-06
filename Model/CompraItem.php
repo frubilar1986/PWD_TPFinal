@@ -6,6 +6,7 @@ class CompraItem {
   private $objproducto;
   private $objcompra;
   private $cicantidad;
+  private $cipreciototal;
   private $msjerror;
 
   public function __construct() {
@@ -16,11 +17,12 @@ class CompraItem {
     $this->cicantidad = null;
   }
 
-  public function setear($idcompraitem, $objproducto, $objcompra, $cicantidad) {
+  public function setear($idcompraitem, $objproducto, $objcompra, $cicantidad, $cipreciototal) {
     $this->setIdCompraItem($idcompraitem);
     $this->setObjProducto($objproducto);
     $this->setObjCompra($objcompra);
-    $this->setciCantidad($cicantidad);
+    $this->setCiCantidad($cicantidad);
+    $this->setCiPrecioTotal($cipreciototal);
   }
 
   public function getIdCompraItem() {
@@ -50,11 +52,18 @@ class CompraItem {
     $this->objcompra = $objcompra;
   }
 
-  public function getciCantidad() {
+  public function getCiCantidad() {
     return $this->cicantidad;
   }
-  public function setciCantidad($cicantidad) {
+  public function setCiCantidad($cicantidad) {
     $this->cicantidad = $cicantidad;
+  }
+
+  public function getCiPrecioTotal() {
+    return $this->cipreciototal;
+  }
+  public function setCiPrecioTotal($cipreciototal) {
+    $this->cipreciototal = $cipreciototal;
   }
 
   public function getMsjError() {
@@ -82,7 +91,7 @@ class CompraItem {
           $objcompra->setIdCompra($row['idcompra']);
           $objcompra->cargar();
 
-          $this->setear($row['idcompraitem'], $objproducto, $objcompra, $row['cicantidad']);
+          $this->setear($row['idcompraitem'], $objproducto, $objcompra, $row['cicantidad'], $row['cipreciototal']);
         }
       }
     } else {
@@ -94,7 +103,7 @@ class CompraItem {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO compraitem (idproducto, idcompra, cicantidad) VALUES ({$this->getObjProducto()->getIdProducto()}, {$this->getObjCompra()->getIdCompra()})";
+    $sql = "INSERT INTO compraitem (idproducto, idcompra, cicantidad, cipreciototal) VALUES ({$this->getObjProducto()->getIdProducto()}, {$this->getObjCompra()->getIdCompra()}, {$this->getCiCantidad()}, {$this->getCiPrecioTotal()})";
 
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
@@ -113,7 +122,7 @@ class CompraItem {
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE compraitem SET idproducto = {$this->getObjProducto()->getIdProducto()}, idcompra = {$this->getObjCompra()->getIdcompra()} WHERE idcompraitem = {$this->getIdCompraItem()}";
+    $sql = "UPDATE compraitem SET idproducto = {$this->getObjProducto()->getIdProducto()}, idcompra = {$this->getObjCompra()->getIdcompra()}, cicantidad = {$this->getCiCantidad()}, cipreciototal = {$this->getCiPrecioTotal()} WHERE idcompraitem = {$this->getIdCompraItem()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         $resp = true;
@@ -164,7 +173,7 @@ class CompraItem {
           $objproducto->setIdProducto($row['idproducto']);
           $objproducto->cargar();
 
-          $obj->setear($row['idcompraItem'], $objproducto, $objcompra, $row['cofecha']);
+          $obj->setear($row['idcompraItem'], $objproducto, $objcompra, $row['cicantidad'], $row['cipreciototal']);
 
           array_push($arreglo, $obj);
         }
