@@ -7,6 +7,8 @@ class Usuario {
   private $uspass;
   private $usmail;
   private $usdeshabilitado;
+  private $colRoles;
+  private $colCompras;
   private $msjerror;
 
   public function __construct() {
@@ -15,6 +17,8 @@ class Usuario {
     $this->uspass = '';
     $this->usmail = '';
     $this->usdeshabilitado = '';
+    $this->colRoles = [];
+    $this->colCompras = [];
   }
 
   public function setear($idusuario, $usnombre, $uspass, $usmail, $usdeshabilitado) {
@@ -58,6 +62,34 @@ class Usuario {
   }
   public function setUsDeshabilitado($usDeshabli) {
     $this->usdeshabilitado = $usDeshabli;
+  }
+
+  public function getColRoles() {
+    $ambUsuarioRol = new AbmUsuarioRol();
+    $condicionRol['idusuario'] = $this->getIdUsuario();
+    $colRolesUsuario = $ambUsuarioRol->buscar($condicionRol);
+
+    $colRoles = [];
+    foreach ($colRolesUsuario as $rolUsuario) {
+      array_push($colRoles, $rolUsuario->getObjRol());
+    }
+    $this->setColRoles($colRoles);
+    return $this->colRoles;
+  }
+  public function setColRoles($colRoles) {
+    $this->colRoles = $colRoles;
+  }
+
+  public function getColCompras() {
+    $ambCompra = new AbmCompra();
+    $condicionCompra['idusuario'] = $this->getIdUsuario();
+    $colCompras = $ambCompra->buscar($condicionCompra);
+
+    $this->setColCompras($colCompras);
+    return $this->colCompras;
+  }
+  public function setColCompras($colCompras) {
+    $this->colCompras = $colCompras;
   }
 
   public function getMsjError() {

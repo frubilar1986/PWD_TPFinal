@@ -13,7 +13,7 @@ class UsuarioRol {
 
   public function setear($objusuario, $objrol) {
     $this->setObjUsuario($objusuario);
-    $this->setObjIdRol($objrol);
+    $this->setObjRol($objrol);
   }
 
   /**
@@ -29,10 +29,10 @@ class UsuarioRol {
   /**
    * @return Rol
    */
-  public function getObjIdRol() {
+  public function getObjRol() {
     return $this->objrol;
   }
-  public function setObjIdRol($objrol) {
+  public function setObjRol($objrol) {
     $this->objrol = $objrol;
   }
 
@@ -53,7 +53,16 @@ class UsuarioRol {
       if ($res > -1) {
         if ($res > 0) {
           $row = $base->Registro();
-          $this->setear($row['idusuario'], $row['idrol']);
+
+          $objUsuario = new Usuario();
+          $objUsuario->setIdUsuario($row['idusuario']);
+          $objUsuario->cargar();
+
+          $objRol = new Rol();
+          $objRol->setIdRol($row['idrol']);
+          $objRol->cargar();
+
+          $this->setear($objUsuario, $objRol);
         }
       }
     } else {
@@ -65,11 +74,11 @@ class UsuarioRol {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO usuariorol (  idusuario,idrol  ) VALUES ({$this->getObjUsuario()->getIdusuario()}, {$this->getObjIdRol()->getIdRol()})";
+    $sql = "INSERT INTO usuariorol (idusuario, idrol) VALUES ({$this->getObjUsuario()->getIdusuario()}, {$this->getObjRol()->getIdRol()})";
 
     if ($base->Iniciar()) {
-      if ($elId = $base->Ejecutar($sql)) {
-        $this->setObjIdRol($elId);
+      if ($id = $base->Ejecutar($sql)) {
+        $this->setObjRol($id);
 
         $resp = true;
       } else {
@@ -84,7 +93,7 @@ class UsuarioRol {
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE usuariorol SET idrol ={$this->getobjIdRol()->getIdRol()} WHERE idusuario = {$this->getObjUsuario()->getIdUsuario()}";
+    $sql = "UPDATE usuariorol SET idrol ={$this->getObjRol()->getIdRol()} WHERE idusuario = {$this->getObjUsuario()->getIdUsuario()}";
     if ($base->Iniciar()) {
 
       if ($base->Ejecutar($sql)) {
@@ -129,7 +138,16 @@ class UsuarioRol {
 
         while ($row = $base->Registro()) {
           $obj = new UsuarioRol();
-          $obj->setear($row['idusuario'], $row['idrol']);
+
+          $objUsuario = new Usuario();
+          $objUsuario->setIdUsuario($row['idusuario']);
+          $objUsuario->cargar();
+
+          $objRol = new Rol();
+          $objRol->setIdRol($row['idrol']);
+          $objRol->cargar();
+
+          $obj->setear($objUsuario, $objRol);
 
           array_push($arreglo, $obj);
         }
