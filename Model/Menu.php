@@ -79,7 +79,12 @@ class Menu {
       if ($res > -1) {
         if ($res > 0) {
           $row = $base->Registro();
-          $this->setear($row['idmenu'], $row['menomnbre'], $row['medescripcion'], $row['idpadre'], $row['medeshabilitado']);
+
+          $objMenuPadre = new Menu();
+          $objMenuPadre->setIdMenu($row['idpadre']);
+          $objMenuPadre->cargar();
+
+          $this->setear($row['idmenu'], $row['menomnbre'], $row['medescripcion'], $objMenuPadre, $row['medeshabilitado']);
         }
       }
     } else {
@@ -111,16 +116,18 @@ class Menu {
     $resp = false;
     $base = new DataBase();
 
-    if ($this->getMeDeshabilitado() != 'null') {
-      $sql = "UPDATE menu SET menombre='{$this->getMeNombre()}', medescripcion='{$this->getMeDescripcion()}', idpadre={$this->getObjMePadre()->getIdMenu()}, medeshabilitado = '{$this->getMeDeshabilitado()}  WHERE idmenu = {$this->getIdMenu()}";
-    } else {
-      $sql = "UPDATE menu SET menombre = '{$this->getMeNombre()}', medescripcion = '{$this->getMeDescripcion()}', idpadre = {$this->getObjMePadre()->getIdMenu()}, medeshabilitado = NULL WHERE idmenu = {$this->getIdMenu()}";
-    }
+    $sql = "UPDATE menu SET 
+      menombre='{$this->getMeNombre()}',
+      medescripcion='{$this->getMeDescripcion()}',
+      idpadre={$this->getObjMePadre()->getIdMenu()},
+      medeshabilitado=" . (($this->getMeDeshabilitado() == '') ? "NULL" : "'{$this->getMeDeshabilitado()}'") . ",
+      WHERE idmenu = {$this->getIdMenu()}";
+
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: { $base->getError()}");
+        $this->setMsjError("Tabla->modificar: {$base->getError()}");
       }
     } else {
       $this->setMsjError("Tabla->modificar: {$base->getError()}");
@@ -156,9 +163,11 @@ class Menu {
       if ($res > 0) {
         while ($row = $base->Registro()) {
           $obj = new Menu();
+
           $objMenuPadre = new Menu();
           $objMenuPadre->setIdMenu($row['idpadre']);
           $objMenuPadre->cargar();
+
           $obj->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $objMenuPadre, $row['medeshabilitado']);
 
           array_push($arreglo, $obj);

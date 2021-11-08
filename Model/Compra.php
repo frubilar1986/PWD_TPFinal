@@ -5,14 +5,16 @@ class Compra {
   private $idcompra;
   private $cofecha;
   private $objusuario;
-  private $colCompraEstado;
+  private $colCompraEstados;
+  private $colCompraItems;
   private $msjerror;
 
   public function __construct() {
     $this->idcompra = null;
     $this->cofecha = '';
     $this->objusuario = null;
-    $this->colCompraEstado = null;
+    $this->colCompraEstado = [];
+    $this->colCompraItems = [];
   }
 
   public function setear($idcompra, $cofecha, $objusuario) {
@@ -46,17 +48,34 @@ class Compra {
   }
 
   public function getColCompraEstados() {
-    $ambCE = new AbmCompraEstado();
-    $condicionCE['idcompra'] = $this->getIdCompra();
-    $colCE = $ambCE->buscar($condicionCE);
+    if (empty($this->colCompraEstados)) {
+      $ambCE = new AbmCompraEstado();
+      $condicionCE['idcompra'] = $this->getIdCompra();
+      $colCE = $ambCE->buscar($condicionCE);
 
-    $this->setColCompraEstados($colCE);
-    return $this->colCompras;
+      $this->setColCompraEstados($colCE);
+    }
+
+    return $this->colCompraEstados;
   }
-  public function setColCompraEstados($colCompraEstado) {
-    $this->colCompraEstado = $colCompraEstado;
+  public function setColCompraEstados($colCompraEstados) {
+    $this->colCompraEstados = $colCompraEstados;
   }
 
+  public function getColCompraItems() {
+    if (empty($this->colCompraItems)) {
+      $ambCI = new AbmCompraItem();
+      $condicionCI['idcompra'] = $this->getIdCompra();
+      $colCI = $ambCI->buscar($condicionCI);
+
+      $this->setColCompraItems($colCI);
+    }
+
+    return $this->colCompraItems;
+  }
+  public function setColCompraItems($colCompraItems) {
+    $this->colCompraItems = $colCompraItems;
+  }
 
   public function getMsjError() {
     return  $this->msjerror;

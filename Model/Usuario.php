@@ -65,15 +65,18 @@ class Usuario {
   }
 
   public function getColRoles() {
-    $ambUsuarioRol = new AbmUsuarioRol();
-    $condicionRol['idusuario'] = $this->getIdUsuario();
-    $colRolesUsuario = $ambUsuarioRol->buscar($condicionRol);
+    if (empty($this->colRoles)) {
+      $ambUsuarioRol = new AbmUsuarioRol();
+      $condicionRol['idusuario'] = $this->getIdUsuario();
+      $colRolesUsuario = $ambUsuarioRol->buscar($condicionRol);
 
-    $colRoles = [];
-    foreach ($colRolesUsuario as $rolUsuario) {
-      array_push($colRoles, $rolUsuario->getObjRol());
+      $colRoles = [];
+      foreach ($colRolesUsuario as $rolUsuario) {
+        array_push($colRoles, $rolUsuario->getObjRol());
+      }
+      $this->setColRoles($colRoles);
     }
-    $this->setColRoles($colRoles);
+
     return $this->colRoles;
   }
   public function setColRoles($colRoles) {
@@ -81,11 +84,14 @@ class Usuario {
   }
 
   public function getColCompras() {
-    $ambCompra = new AbmCompra();
-    $condicionCompra['idusuario'] = $this->getIdUsuario();
-    $colCompras = $ambCompra->buscar($condicionCompra);
+    if (empty($this->colCompras)) {
+      $ambCompra = new AbmCompra();
+      $condicionCompra['idusuario'] = $this->getIdUsuario();
+      $colCompras = $ambCompra->buscar($condicionCompra);
 
-    $this->setColCompras($colCompras);
+      $this->setColCompras($colCompras);
+    }
+
     return $this->colCompras;
   }
   public function setColCompras($colCompras) {
@@ -140,15 +146,15 @@ class Usuario {
     $resp = false;
     $base = new DataBase();
 
-    if ($this->getUsDeshabilitado() != 'null') {
-      $sql = "UPDATE usuario SET usnombre='{$this->getUsNombre()}', uspass='{$this->getUsPass()}', usmail= '{$this->getUsMail()}' , usdeshabilitado = '{$this->getUsDeshabilitado()}  WHERE idusuario = {$this->getIdUsuario()}";
-    } else {
-      $sql = "UPDATE usuario SET usnombre = '{$this->getUsNombre()}', uspass = '{$this->getUsPass()}', usmail = '{$this->getUsMail()}', usdeshabilitado = NULL WHERE idusuario = {$this->getIdUsuario()}";
-    }
+    $sql = "UPDATE usuario SET 
+      usnombre='{$this->getUsNombre()}', 
+      uspass='{$this->getUsPass()}', 
+      usmail='{$this->getUsMail()}', 
+      usdeshabilitado=" . (($this->getUsDeshabilitado() == '') ? "NULL" : ("'{$this->getUsDeshabilitado()}'")) . ",
+      WHERE idusuario={$this->getIdUsuario()}";
+
     if ($base->Iniciar()) {
-
       if ($base->Ejecutar($sql)) {
-
         $resp = true;
       } else {
         $this->setMsjError("Tabla->modificar: {$base->getError()}");

@@ -2,25 +2,28 @@
 
 class MenuRol {
 
-  private $idmenu;
+  private $objmenu;
   private $objrol;
   private $msjerror;
 
   public function __construct() {
-    $this->idmenu = null;
+    $this->objmenu = null;
     $this->objrol = null;
   }
 
-  public function setear($idmenu, $objrol) {
-    $this->setIdMenu($idmenu);
+  public function setear($objmenu, $objrol) {
+    $this->setObjMenu($objmenu);
     $this->setObjRol($objrol);
   }
 
-  public function getIdMenu() {
-    return $this->idmenu;
+  /**
+   * @return Menu
+   */
+  public function getObjMenu() {
+    return $this->objmenu;
   }
-  public function setIdMenu($idmenu) {
-    $this->idmenu = $idmenu;
+  public function setObjMenu($objmenu) {
+    $this->objmenu = $objmenu;
   }
 
   /**
@@ -43,7 +46,7 @@ class MenuRol {
   public function cargar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "SELECT * FROM menurol WHERE idmenu = {$this->getIdMenu()}";
+    $sql = "SELECT * FROM menurol WHERE objmenu = {$this->getObjMenu()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
@@ -61,11 +64,10 @@ class MenuRol {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO menurol (idmenu, idrol) VALUES ({$this->getIdMenu()},{$this->getObjRol()->getIdRol()})";
+    $sql = "INSERT INTO menurol (idmenu, idrol) VALUES ({$this->getObjMenu()->getIdMenu()}, {$this->getObjRol()->getIdRol()})";
 
     if ($base->Iniciar()) {
-      if ($id = $base->Ejecutar($sql)) {
-        $this->setIdMenu($id);
+      if ($base->Ejecutar($sql)) {
 
         $resp = true;
       } else {
@@ -77,10 +79,14 @@ class MenuRol {
     return $resp;
   }
 
+  /**
+   * Este metodo sirve para modificar el rol que puede usar esta opcion de menu
+   * @return void
+   */
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE menurol SET idrol = {$this->getObjRol()->getIdRol()} WHERE idmenu = {$this->getIdMenu()}";
+    $sql = "UPDATE menurol SET idrol = {$this->getObjRol()->getIdRol()} WHERE idmenu = {$this->getObjMenu()->getIdMenu()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         $resp = true;
@@ -96,7 +102,7 @@ class MenuRol {
   public function eliminar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "DELETE FROM menurol WHERE idmenu={$this->getIdMenu()}";
+    $sql = "DELETE FROM menurol WHERE idmenu={$this->getObjMenu()->getIdMenu()} AND idrol={$this->getObjRol()->getIdRol()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;
@@ -123,11 +129,15 @@ class MenuRol {
         while ($row = $base->Registro()) {
           $obj = new MenuRol();
 
+          $objMenu = new Menu();
+          $objMenu->setIdMenu($row['idmenu']);
+          $objMenu->cargar();
+
           $objRol = new Rol();
           $objRol->setIdRol($row['idrol']);
           $objRol->cargar();
 
-          $obj->setear($row['idmenu'], $objRol);
+          $obj->setear($objMenu, $objRol);
 
           array_push($arreglo, $obj);
         }

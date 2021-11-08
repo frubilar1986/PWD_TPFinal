@@ -1,6 +1,6 @@
 <?php
 
-class AbmcompraItem {
+class AbmCompraItem {
 
   /**
    * Espera como parametro un arreglo asociativo donde las claves coinciden con los nombres de las variables instancias del objeto
@@ -14,7 +14,8 @@ class AbmcompraItem {
       array_key_exists('idcompraitem', $datos) &&
       array_key_exists('idproducto', $datos) &&
       array_key_exists('idcompra', $datos) &&
-      array_key_exists('cicantidad', $datos)
+      array_key_exists('cicantidad', $datos) &&
+      array_key_exists('cipreciototal', $datos)
     ) {
       $obj = new CompraItem();
 
@@ -26,7 +27,7 @@ class AbmcompraItem {
       $objCompra->setIdCompra($datos['idcompra']);
       $objCompra->cargar();
 
-      $obj->setear($datos['idcompraitem'], $objProd, $objCompra, $datos['cicantidad']);
+      $obj->setear($datos['idcompraitem'], $objProd, $objCompra, $datos['cicantidad'], $datos['cipreciototal']);
     }
     return $obj;
   }
@@ -41,7 +42,7 @@ class AbmcompraItem {
 
     if (isset($datos['idcompraitem'])) {
       $obj = new CompraItem();
-      $obj->setear($datos['idcompraitem'], null, null, null);
+      $obj->setear($datos['idcompraitem'], null, null, null, null);
     }
     return $obj;
   }

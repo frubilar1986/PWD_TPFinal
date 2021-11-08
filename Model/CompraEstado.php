@@ -122,7 +122,14 @@ class CompraEstado {
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE compraestado SET idcompra = {$this->getObjCompra()->getIdCompra()}, idcompraestado = {$this->getObjCompraEstTipo()->getIdCompraEstTipo()}, cefechaini = '{$this->getCeFechaIni()}', cefechafin = '{$this->getCeFechaFin()}' WHERE idcompraestado = {$this->getIdCompraEstado()}";
+    $sql = "UPDATE compraestado SET 
+      idcompra = {$this->getObjCompra()->getIdCompra()},
+      idcompraestado = {$this->getObjCompraEstTipo()->getIdCompraEstTipo()},
+      cefechaini = '{$this->getCeFechaIni()}',
+      cefechafin=" . (($this->getCeFechaFin() == '') ? "NULL" : "'{$this->getCeFechaFin()}'") . ",
+      WHERE idcompraestado = {$this->getIdCompraEstado()}";
+
+
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         $resp = true;

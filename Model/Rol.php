@@ -4,6 +4,7 @@ class Rol {
 
   private $idrol;
   private $rodescripcion;
+  private $colMenus;
   private $msjError;
 
   public function __construct() {
@@ -28,6 +29,25 @@ class Rol {
   }
   public function setRoDescripcion($rodescripcion) {
     $this->rodescripcion = $rodescripcion;
+  }
+  
+  public function getColMenus() {
+    if (empty($this->colMenus)) {
+      $abmMR = new AbmMenuRol();
+      $condicionMR['idrol'] = $this->getIdRol();
+      $colMenusRol = $abmMR->buscar($condicionMR);
+
+      $colMenus = [];
+      foreach ($colMenusRol as $menuRol) {
+        array_push($colMenus, $menuRol->getObjMenu());
+      }
+      $this->setColMenus($colMenus);
+    }
+
+    return $this->colMenus;
+  }
+  public function setColMenus($colMenus) {
+    $this->colMenus = $colMenus;
   }
 
   public function getMsjError() {
