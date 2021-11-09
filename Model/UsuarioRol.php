@@ -74,7 +74,7 @@ class UsuarioRol {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO usuariorol (idusuario, idrol) VALUES ({$this->getObjUsuario()->getIdusuario()}, {$this->getObjRol()->getIdRol()})";
+    $sql = "INSERT INTO usuariorol (idusuario, idrol) VALUES ({$this->getObjUsuario()->getIdUsuario()}, {$this->getObjRol()->getIdRol()})";
 
     if ($base->Iniciar()) {
       if ($id = $base->Ejecutar($sql)) {
