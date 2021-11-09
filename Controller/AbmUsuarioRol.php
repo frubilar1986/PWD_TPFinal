@@ -7,19 +7,35 @@ class AbmUsuarioRol {
    * @param array $datos
    * @return UsuarioRol
    */
-  private function cargarObjeto($datos) {
-    $obj = null;
+//   private function cargarObjeto($datos) {
+//     $obj = null;
 
-    if (
-      array_key_exists('idusuario', $datos) &&
-      array_key_exists('idrol', $datos)
-    ) {
-      $obj = new UsuarioRol();
+//     if (
+//       array_key_exists('idusuario', $datos) &&
+//       array_key_exists('idrol', $datos)
+//     ) {
+//       $obj = new UsuarioRol();
 
-      $obj->setear($datos['idusuario'], $datos['idrol']);
+//       $obj->setear($datos['idusuario'], $datos['idrol']);
+//     }
+//     return $obj;
+//   }
+  private function cargarObjeto($param){
+        $obj = null;
+           
+        if( array_key_exists('idusuario',$param) && array_key_exists('idrol',$param)){
+            $obj = new usuarioRol();
+            $objRol = new rol();
+            $objRol->setIdRol($param['idrol']);
+            $objRol->cargar();
+            $objUsuario = new usuario();
+            $objUsuario->setIdUsuario($param['idusuario']);
+            $objUsuario->cargar();
+            //$obj->setear($param['idmenu'], $objRol);
+            $obj->setear($objUsuario, $objRol);
+        }
+        return $obj;
     }
-    return $obj;
-  }
 
   /**
    * Espera como parametro un arreglo asociativo donde las claves coinciden con los nombres de las variables instancias del objeto que son claves
@@ -29,13 +45,14 @@ class AbmUsuarioRol {
   private function cargarObjetoConClave($datos) {
     $obj = null;
 
-    if (
-      isset($datos['idusuario']) &&
-      isset($datos['idrol'])
-    ) {
-      $obj = new UsuarioRol();
-      $obj->setear($datos['idusuario'], $datos['idrol']);
-    }
+//     if (
+//       isset($datos['idusuario']) &&
+//       isset($datos['idrol'])
+//     ) {
+//       $obj = new UsuarioRol();
+//       $obj->setear($datos['idusuario'], $datos['idrol']);
+//     }
+    $obj = cargarObjeto($datos):
     return $obj;
   }
 
@@ -63,7 +80,7 @@ class AbmUsuarioRol {
    */
   public function alta($datos) {
     $resp = false;
-    $datos['id'] = null;
+    //$datos['id'] = null;
     $obj = $this->cargarObjeto($datos);
 
     if ($obj != null and $obj->insertar()) {
