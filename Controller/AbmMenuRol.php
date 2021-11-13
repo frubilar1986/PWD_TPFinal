@@ -60,7 +60,7 @@ class AbmMenuRol {
    */
   public function alta($datos) {
     $resp = false;
-    $datos['id'] = null;
+    $datos['idmenu'] = null;
     $obj = $this->cargarObjeto($datos);
 
     if ($obj != null and $obj->insertar()) {

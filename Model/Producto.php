@@ -2,11 +2,13 @@
 
 class Producto {
 
+  // agregar propreciooferta
   private $idproducto;
   private $pronombre;
   private $prodetalle;
   private $procantstock;
   private $proprecio;
+  private $propreciooferta;
   private $msjerror;
 
   public function __construct() {
@@ -15,14 +17,16 @@ class Producto {
     $this->prodetalle = '';
     $this->procantstock = null;
     $this->proprecio = null;
+    $this->propreciooferta = null;
   }
 
-  public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $proprecio) {
+  public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $proprecio, $propreciooferta) {
     $this->setIdProducto($idproducto);
     $this->setPronombre($pronombre);
     $this->setproDetalle($prodetalle);
     $this->setProCantStock($procantstock);
     $this->setProPrecio($proprecio);
+    $this->setProPrecioOferta($propreciooferta);
   }
 
   public function getIdProducto() {
@@ -60,6 +64,13 @@ class Producto {
     $this->proprecio = $proprecio;
   }
 
+  public function getProPrecioOferta() {
+    return $this->propreciooferta;
+  }
+  public function setProPrecioOferta($propreciooferta) {
+    $this->propreciooferta = $propreciooferta;
+  }
+
   public function getMsjError() {
     return $this->msjerror;
   }
@@ -76,7 +87,7 @@ class Producto {
       if ($res > -1) {
         if ($res > 0) {
           $row = $base->Registro();
-          $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio']);
+          $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio'], $row['propreciooferta']);
         }
       }
     } else {
@@ -88,7 +99,7 @@ class Producto {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO producto (pronombre, prodetalle, procantstock ) VALUES ('{$this->getProNombre()}}', '{$this->getProDetalle()}', {$this->getProCantStock()}, {$this->getProPrecio()})";
+    $sql = "INSERT INTO producto (pronombre, prodetalle, procantstock, proprecio, propreciooferta) VALUES ('{$this->getProNombre()}}', '{$this->getProDetalle()}', {$this->getProCantStock()}, {$this->getProPrecio()}, {$this->getProPrecioOferta()})";
 
     if ($base->Iniciar()) {
       if ($id = $base->Ejecutar($sql)) {
@@ -107,7 +118,7 @@ class Producto {
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE producto SET pronombre = '{$this->getProNombre()}', prodetalle = '{$this->getProDetalle()}', procantstock = {$this->getProCantStock()}, proprecio= {$this->getProPrecio()} WHERE idproducto = {$this->getIdProducto()}";
+    $sql = "UPDATE producto SET pronombre = '{$this->getProNombre()}', prodetalle = '{$this->getProDetalle()}', procantstock = {$this->getProCantStock()}, proprecio= {$this->getProPrecio()}, propreciooferta= {$this->getProPrecioOferta()} WHERE idproducto = {$this->getIdProducto()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         $resp = true;
@@ -149,7 +160,7 @@ class Producto {
         while ($row = $base->Registro()) {
           $obj = new Producto();
 
-          $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio']);
+          $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio'], $row['propreciooferta']);
 
           array_push($arreglo, $obj);
         }

@@ -19,7 +19,7 @@ class AbmProducto {
     ) {
       $obj = new Producto();
 
-      $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['proprecio']);
+      $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['proprecio'], $param['propreciooferta']);
     }
     return $obj;
   }
@@ -34,7 +34,7 @@ class AbmProducto {
 
     if (isset($param['idproducto'])) {
       $obj = new Producto();
-      $obj->setear($param['idproducto'], null, null, null, null);
+      $obj->setear($param['idproducto'], null, null, null, null, null);
     }
     return $obj;
   }
@@ -60,7 +60,7 @@ class AbmProducto {
    */
   public function alta($param) {
     $resp = false;
-    $param['id'] = null;
+    $param['idproducto'] = null;
     $obj = $this->cargarObjeto($param);
 
     if ($obj != null && $obj->insertar()) {
@@ -117,6 +117,10 @@ class AbmProducto {
         $where .= " and prodetalle = '{$param['prodetalle']}'";
       if (isset($param['procantstock']))
         $where .= " and procantstock = '{$param['procantstock']}'";
+      if (isset($param['proprecio']))
+        $where .= " and proprecio = {$param['proprecio']}";
+      if (isset($param['propreciooferta']))
+        $where .= " and propreciooferta = {$param['propreciooferta']}";
     }
 
     $arreglo = Producto::listar($where);

@@ -60,7 +60,7 @@ class AbmUsuario {
    */
   public function alta($datos) {
     $resp = false;
-    $datos['id'] = null;
+    $datos['idusuario'] = null;
     $obj = $this->cargarObjeto($datos);
 
     if ($obj != null && $obj->insertar()) {

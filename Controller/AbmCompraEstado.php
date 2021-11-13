@@ -69,7 +69,7 @@ class AbmCompraEstado {
    */
   public function alta($datos) {
     $resp = false;
-    $datos['id'] = null;
+    $datos['idcompraestado'] = null;
     $obj = $this->cargarObjeto($datos);
 
     if ($obj != null and $obj->insertar()) {

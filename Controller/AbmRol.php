@@ -58,7 +58,7 @@ class AbmRol {
    */
   public function alta($datos) {
     $resp = false;
-    $datos['id'] = null;
+    $datos['idrol'] = null;
     $obj = $this->cargarObjeto($datos);
 
     if ($obj != null && $obj->insertar()) {

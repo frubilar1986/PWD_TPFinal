@@ -1,0 +1,45 @@
+/** General **/
+li {
+  list-style: none;
+}
+
+.hide {
+  display: none;
+}
+
+#filter-list {
+  margin: 0;
+  padding: 0;
+}
+
+#filter-list ul li {
+  display: inline-block;
+  padding: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+#filter-list li.active, #filter-list li:hover {
+  background-color: red;
+}
+
+.cursos .imagen-curso {
+  width: 180px;
+}
+
+#seccion-productos .item-box img {
+  width: 180px;
+}
+
+#seccion-productos .item-box .hide {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+.boton-login {
+  color: #FF5DA2;
+}
+/*# sourceMappingURL=main.css.map */

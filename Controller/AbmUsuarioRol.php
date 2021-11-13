@@ -63,7 +63,6 @@ class AbmUsuarioRol {
    */
   public function alta($datos) {
     $resp = false;
-    $datos['id'] = null;
     $obj = $this->cargarObjeto($datos);
 
     if ($obj != null and $obj->insertar()) {
