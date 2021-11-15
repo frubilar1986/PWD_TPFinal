@@ -11,9 +11,10 @@ for(let i = 0; i<list.length; i++){
         this.classList.add("active");
         let dataFilter = this.getAttribute("data-filter");
         for(let k = 0; k<itemBox.length; k++){
+            console.log(itemBox.length);
             itemBox[k].classList.remove("active");
             itemBox[k].classList.add("hide");
-            if(itemBox[k].getAttribute("data-item")== dataFilter || dataFilter == "todo") {
+            if(itemBox[k].getAttribute("data-item") == dataFilter || dataFilter == "todo") {
                 itemBox[k].classList.remove("hide");
                 itemBox[k].classList.add("active");
 
