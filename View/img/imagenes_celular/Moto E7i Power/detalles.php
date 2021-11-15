@@ -1,1 +1,8 @@
-"marca" => "Motorola", "desc1" => "El nuevo Moto E7i Power permite aprovechar tu celular como nunca antes gracias a la gran batería de 5000 mAh que dura más de 40 horas con una única carga. Este modelo no solo porta un diseño elegante y dinámico para el agarre sino también una resistencia única ya que es repelente al agua: se mantiene protegido de derrames, salpicaduras y bajo la lluvia.", "desc2" => "Además, el Moto E7i Power cuenta con una impresionante pantalla ultra ancha de 6,5 pulgadas Max Vision HD+ para disfrutar de todo el contenido con la mejor calidad. Ahora podés jugar, mirar y videochatear con la mejor calidad gracias a su relación de aspecto 20:9 y una gran proporción pantalla-cuerpo.", "Cámara principal" => "13 mpx con flash LED | Dual | Zoom digital 4x", "Display" => "6.5'' IPS HD+", "Procesador" => "Octa Core 1.6 GHz", "Celular Liberado" => "Si", "Modelo" => "XT2097-12", "Cámara frontal" => "5 mpx", "Sistema Operativo" => "Android 10", "Tipo de SIM" => "Nano-SIM", "Red" => "2G, 3G, 4G", "Frecuencia 2G" => "850/900/1800/1900 MHz", "Frecuencia 3G" => "Bandas 1, 2, 4, 5, 6 y 8.", "Frecuencia 4G" => "Bandas 1, 2, 3, 4, 5, 7, 8, 19, 28 y 66.", "Batería" => "5000 mAh", "Memoria RAM" => "2 GB", "Memoria Interna" => "32 GB | Disponibles 24 GB", "Memoria Externa" => "MicroSD hasta 1 TB", "Peso" => "200 gr", "Dimensión del equipo" => "165 x 75,8 x 9,2 mm", "NFC" => "No", "Auriculares Incluidos" => "No", "Cargador Incluido" => "Si", "Cable USB Incluido" => "Si Tipo C.", "Cover Incluido" => "No", "Otros Accesorios Incluidos" => "No",
+<?php
+
+
+
+
+
+
+
