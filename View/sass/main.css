@@ -28,7 +28,7 @@ li {
   text-align: center;
 }
 
-#filter-list li.active {
+#filter-list ul li li.active {
   border: 1px solid #96061F;
   border-radius: 50px;
 }
@@ -128,4 +128,17 @@ hr {
 .lindo-hover {
   position: relative;
 }
-/*# sourceMappingURL=main.css.map */
+
+body {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}

@@ -1,97 +1,103 @@
 /** General **/
 *
-    margin: 0
-    padding: 0
-    box-sizing: border-box
+  margin: 0
+  padding: 0
+  box-sizing: border-box
 
 li
-    list-style: none
+  list-style: none
 
 .hide
-    display: none
+  display: none
 
 #filter-list
-    margin: 0
-    padding: 0
-    ul li
-        display: inline-block
-        padding: 1rem
-        margin: 1rem
-        cursor: pointer
-        width: 100px
-        text-align: center
+  margin: 0
+  padding: 0
+  ul li
+    display: inline-block
+    padding: 1rem
+    margin: 1rem
+    cursor: pointer
+    width: 100px
+    text-align: center
     li.active
-        border: 1px solid #96061F
-        border-radius: 50px
+      border: 1px solid #96061F
+      border-radius: 50px
 
 .cursos .imagen-curso
-    width: 180px
+  width: 180px
 
 #seccion-productos .item-box img
-    width: 180px
+  width: 180px
 
 #seccion-productos .item-box .hide
-    display: none
+  display: none
 
 .hide
-    display: none !important
+  display: none !important
 
 .boton-login
     // color: #FF5DA2
     // font-size: 10rem
 
 .precio
-    color: red
+  color: red
 
 hr
-    margin-top: 1rem
-    margin-bottom: 1rem
-    border: 0
-    border-top: 1px solid rgba(0, 0, 0, 0.1)
+  margin-top: 1rem
+  margin-bottom: 1rem
+  border: 0
+  border-top: 1px solid rgba(0, 0, 0, 0.1)
 
 .uppercase
-    text-transform: uppercase
+  text-transform: uppercase
 
 .carousel-control-prev-icon
-    color: blue
+  color: blue
 .carousel-control-next-icon
-    color: blue
+  color: blue
 
 .fondo-desc-color
-    background-color: #f2f2f2
+  background-color: #f2f2f2
 
 .bullet
-    list-style: outside
+  list-style: outside
 
 .tachado
-    text-decoration: line-through
+  text-decoration: line-through
 
 .sombra-caja
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px
-    &:hover
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px
-        transition: 2s ease
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px
+  &:hover
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px
+    transition: 2s ease
 /** Hober **/
 .lindo-hover::before
-    transform: scaleX(0)
-    transform-origin: bottom right
+  transform: scaleX(0)
+  transform-origin: bottom right
 
 .lindo-hover:hover::before
-    transform: scaleX(1)
-    transform-origin: bottom left
+  transform: scaleX(1)
+  transform-origin: bottom left
 
 .lindo-hover::before
-    content: " "
-    display: block
-    position: absolute
-    top: 0
-    right: 0
-    bottom: 0
-    left: 0
-    inset: 0 0 0 0
-    border: 1px solid #96061F
-    border-radius: 50px
-    z-index: -1
+  content: " "
+  display: block
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  inset: 0 0 0 0
+  border: 1px solid #96061F
+  border-radius: 50px
+  z-index: -1
 
 .lindo-hover
-    position: relative
+  position: relative
+
+body
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  justify-content: space-between

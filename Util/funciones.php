@@ -59,7 +59,7 @@ spl_autoload_register(function ($clase) {
       // echo "aqui se incluye" . $directorio . $clase . ".php";
       require_once($directorio . $clase . ".php");
 
-      // include_once($directorio.$clase.".php");
+      include_once($directorio.$clase.".php");
       return;
     }
   }

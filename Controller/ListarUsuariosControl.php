@@ -36,8 +36,7 @@ class ListarUsuariosControl {
         'usnombre' => $usuario->getUsNombre(),
         'uspass' => $usuario->getUsPass(),
         'usmail' => $usuario->getUsMail(),
-        'usdeshabilitado' => $baja == (1) ? fecha() : null,
-        'usvencimientocertificado' =>  $usuario->getUsVencimientoCertificado()
+        'usdeshabilitado' => $baja == (1) ? fecha() : null
       ];
 
       $abmUsuario->modificacion($datosUsuario);

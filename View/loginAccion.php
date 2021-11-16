@@ -9,17 +9,17 @@ $sesion = $control->logear();
 <?php
 if ($sesion != null && $sesion->getObjUsuario() != null) {
   if ($sesion->activa() and !$sesion->getObjUsuario()->getUsDeshabilitado()) {
-    echo 1;
+    // echo "sesion activa y usuario no deshabilitado";
     header("Status: 301 Moved Permanently");
-    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/$PROYECTO/View/paginaSegura.php");
+    header("Location: $INICIO");
   } elseif ($sesion->getObjUsuario()->getUsDeshabilitado()) {
-    echo 2;
+    // echo "sesion activa y usuario deshabilitado";
     header("Status: 301 Moved Permanently");
     header("Location: " . $LOGIN . "?error=2");
     $sesion->cerrar();
   }
 } else {
-  echo 3;
+  // echo "la contrase o usuario no coinciden";
   header("Status: 301 Moved Permanently");
   header("Location: " . $LOGIN . "?error=1");
 }
