@@ -63,5 +63,49 @@ spl_autoload_register(function ($clase) {
       return;
     }
   }
-})
+});
+
+function fecha($dias = 0) {
+  date_default_timezone_set("America/Argentina/Buenos_Aires");
+  $date = new DateTime('now');
+
+  if ($dias != 0) {
+    $date->modify('+' . $dias . ' day');
+  }
+  $date = $date->format('Y-m-d H:i:s');
+  return $date;
+}
+
+//Ordenar arreglo
+function cmp2($a, $b) {
+  return strcmp($a->getUsDeshabilitado(), $b->getUsDeshabilitado());
+}
+
+function cmp($a, $b) {
+  return strcmp($a->getUsNombre(), $b->getUsNombre());
+}
+
+function ordenarArregloUsuarios($array) {
+  $usuariosDeshabilitados = [];
+  $usuariosHabilitados = [];
+  foreach ($array as $usuario) {
+    if ($usuario->getUsDeshabilitado()) {
+      $usuariosDeshabilitados[] = $usuario;
+    } else {
+      $usuariosHabilitados[] = $usuario;
+    }
+  }
+
+  if ($usuariosHabilitados) {
+    usort($usuariosHabilitados, "cmp");
+  }
+
+  if ($usuariosDeshabilitados) {
+    usort($usuariosDeshabilitados, "cmp");
+  }
+
+  $resultado = array_merge($usuariosHabilitados, $usuariosDeshabilitados);
+  return $resultado;
+}
+
 ?>

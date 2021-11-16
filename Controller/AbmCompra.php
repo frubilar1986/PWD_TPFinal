@@ -11,10 +11,17 @@ class AbmCompra {
   private function cargarObjeto($datos) {
     $obj = null;
 
-    if (array_key_exists('idcompra', $datos) and array_key_exists('cofecha', $datos) and array_key_exists('idUsuario', $datos)) {
+    if (
+      array_key_exists('idcompra', $datos) &&
+      array_key_exists('cofecha', $datos) &&
+      array_key_exists('idUsuario', $datos)
+    ) {
       $obj = new Compra();
+
       $objUsuario = new Usuario();
+      $objUsuario->setIdUsuario($datos['idusuario']);
       $objUsuario->cargar();
+
       $obj->setear($datos['idcompra'], $datos['cofecha'], $objUsuario);
     }
 
@@ -59,7 +66,7 @@ class AbmCompra {
     $datos['idcompra'] = null;
     $obj = $this->cargarObjeto($datos);
 
-    if ($obj != null and $obj->insertar()) {
+    if ($obj != null && $obj->insertar()) {
       $resp = true;
     }
     return $resp;
@@ -74,7 +81,7 @@ class AbmCompra {
     $resp = false;
     if ($this->seteadosCamposClaves($datos)) {
       $obj = $this->cargarObjetoConClave($datos);
-      if ($obj != null and $obj->eliminar()) {
+      if ($obj != null && $obj->eliminar()) {
         $resp = true;
       }
     }
@@ -91,7 +98,7 @@ class AbmCompra {
     $resp = false;
     if ($this->seteadosCamposClaves($datos)) {
       $obj = $this->cargarObjeto($datos);
-      if ($obj != null and $obj->modificar()) {
+      if ($obj != null && $obj->modificar()) {
         $resp = true;
       }
     }

@@ -29,6 +29,14 @@ class Session {
    * @return Usuario
    */
   public function getObjUsuario() {
+    if ($this->objUsuario == null && isset($_SESSION['idusuario'])) {
+      $abmUsuario = new AbmUsuario();
+      $condiciones['idusuario'] = $_SESSION['idusuario'];
+      $usuario = $abmUsuario->buscar($condiciones)[0];
+
+      $this->setObjUsuario($usuario);
+    }
+
     return $this->objUsuario;
   }
   public function setObjUsuario($objUsuario) {
@@ -55,6 +63,7 @@ class Session {
   }
 
   public function cerrar() {
+    var_dump($this->getObjUsuario());
     if ($this->getObjUsuario()) {
       session_unset();
       session_destroy();

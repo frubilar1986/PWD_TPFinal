@@ -16,7 +16,15 @@ class AbmUsuarioRol {
     ) {
       $obj = new UsuarioRol();
 
-      $obj->setear($datos['idusuario'], $datos['idrol']);
+      $objRol = new Rol();
+      $objRol->setIdRol($datos['idrol']);
+      $objRol->cargar();
+
+      $objUsuario = new Usuario();
+      $objUsuario->setIdUsuario($datos['idusuario']);
+      $objUsuario->cargar();
+
+      $obj->setear($objUsuario, $objRol);
     }
     return $obj;
   }
@@ -34,7 +42,16 @@ class AbmUsuarioRol {
       isset($datos['idrol'])
     ) {
       $obj = new UsuarioRol();
-      $obj->setear($datos['idusuario'], $datos['idrol']);
+
+      $objRol = new Rol();
+      $objRol->setIdRol($datos['idrol']);
+      $objRol->cargar();
+
+      $objUsuario = new Usuario();
+      $objUsuario->setIdUsuario($datos['idusuario']);
+      $objUsuario->cargar();
+
+      $obj->setear($objUsuario, $objRol);
     }
     return $obj;
   }
@@ -70,7 +87,7 @@ class AbmUsuarioRol {
     }
     return $resp;
   }
-  
+
   /**
    * permite eliminar un objeto 
    * @param array $datos

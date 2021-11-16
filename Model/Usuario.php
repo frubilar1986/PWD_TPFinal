@@ -65,7 +65,7 @@ class Usuario {
   }
 
   public function getColRoles() {
-    if (empty($this->colRoles)) {
+    if ($this->colRoles == []) {
       $ambUsuarioRol = new AbmUsuarioRol();
       $condicionRol['idusuario'] = $this->getIdUsuario();
       $colRolesUsuario = $ambUsuarioRol->buscar($condicionRol);
@@ -74,6 +74,7 @@ class Usuario {
       foreach ($colRolesUsuario as $rolUsuario) {
         array_push($colRoles, $rolUsuario->getObjRol());
       }
+
       $this->setColRoles($colRoles);
     }
 
@@ -84,7 +85,7 @@ class Usuario {
   }
 
   public function getColCompras() {
-    if (empty($this->colCompras)) {
+    if ($this->colCompras == []) {
       $ambCompra = new AbmCompra();
       $condicionCompra['idusuario'] = $this->getIdUsuario();
       $colCompras = $ambCompra->buscar($condicionCompra);
@@ -114,7 +115,7 @@ class Usuario {
       if ($res > -1) {
         if ($res > 0) {
           $row = $base->Registro();
-          $this->setear($row['idusuario'], $row['usnomnbre'], $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
+          $this->setear($row['idusuario'], $row['usnombre'], $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
         }
       }
     } else {
@@ -150,7 +151,7 @@ class Usuario {
       usnombre='{$this->getUsNombre()}', 
       uspass='{$this->getUsPass()}', 
       usmail='{$this->getUsMail()}', 
-      usdeshabilitado=" . (($this->getUsDeshabilitado() == '') ? "NULL" : ("'{$this->getUsDeshabilitado()}'")) . ",
+      usdeshabilitado=" . (($this->getUsDeshabilitado() == '') ? "NULL" : ("'{$this->getUsDeshabilitado()}'")) . "
       WHERE idusuario={$this->getIdUsuario()}";
 
     if ($base->Iniciar()) {

@@ -11,7 +11,11 @@ $PROYECTO = 'TPFinal-PWD';
 
 //variable que almacena el directorio del proyecto
 $ROOT = $_SERVER['DOCUMENT_ROOT'] . "/$PROYECTO/";
+$LOGIN = $ROOT . "View/login.php";
 
 include_once($ROOT . 'Util/funciones.php');
 
 $GLOBALS['ROOT'] = $ROOT;
+
+$sesion = new Session();
+

@@ -20,7 +20,11 @@ class AbmMenuRol {
       $objRol->setIdRol($datos['idrol']);
       $objRol->cargar();
 
-      $obj->setear($datos['idmenu'], $objRol);
+      $objMenu = new Menu();
+      $objMenu->setIdMenu($datos['idmenu']);
+      $objMenu->cargar();
+
+      $obj->setear($objMenu, $objRol);
     }
     return $obj;
   }
@@ -35,7 +39,16 @@ class AbmMenuRol {
 
     if (isset($datos['idmenu'])) {
       $obj = new MenuRol();
-      $obj->setear($datos['idmenu'], null);
+      
+      $objRol = new Rol();
+      $objRol->setIdRol($datos['idrol']);
+      $objRol->cargar();
+
+      $objMenu = new Menu();
+      $objMenu->setIdMenu($datos['idmenu']);
+      $objMenu->cargar();
+      
+      $obj->setear($objMenu, $objRol);
     }
     return $obj;
   }

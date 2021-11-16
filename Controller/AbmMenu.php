@@ -19,7 +19,11 @@ class AbmMenu {
     ) {
       $obj = new Menu();
 
-      $obj->setear($datos['idmenu'], $datos['menombre'], $datos['medescripcion'], $datos['idpadre'], $datos['medeshabilitado']);
+      $objPadre = new Menu();
+      $objPadre->setIdMenu($datos['idpadre']);
+      $objPadre->cargar();
+
+      $obj->setear($datos['idmenu'], $datos['menombre'], $datos['medescripcion'], $objPadre, $datos['medeshabilitado']);
     }
     return $obj;
   }
