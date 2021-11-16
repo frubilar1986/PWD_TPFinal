@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2021 a las 14:03:10
+-- Tiempo de generación: 15-11-2021 a las 22:21:45
 -- Versión del servidor: 10.4.13-MariaDB
 -- Versión de PHP: 7.4.8
 
@@ -170,6 +170,15 @@ CREATE TABLE `rol` (
   `rodescripcion` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`idrol`, `rodescripcion`) VALUES
+(1, 'administrador'),
+(2, 'deposito'),
+(3, 'cliente');
+
 -- --------------------------------------------------------
 
 --
@@ -179,10 +188,22 @@ CREATE TABLE `rol` (
 CREATE TABLE `usuario` (
   `idusuario` bigint(20) NOT NULL,
   `usnombre` varchar(50) NOT NULL,
-  `uspass` int(11) NOT NULL,
+  `uspass` varchar(32) NOT NULL,
   `usmail` varchar(50) NOT NULL,
   `usdeshabilitado` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`idusuario`, `usnombre`, `uspass`, `usmail`, `usdeshabilitado`) VALUES
+(1, 'administrador1', '81dc9bdb52d04dc20036dbd8313ed055', 'administrador@gmail.com', NULL),
+(2, 'administrador2', '81b073de9370ea873f548e31b8adc081', 'administrador2@gmail.com', NULL),
+(3, 'deposito1', 'def7924e3199be5e18060bb3e1d547a7', 'deposito1@gmail.com', NULL),
+(4, 'deposito2', '6562c5c1f33db6e05a082a88cddab5ea', 'deposito2@gmail.com', NULL),
+(5, 'deposito3', '674f3c2c1a8a6f90461e8a66fb5550ba', 'deposito3@gmail.com', NULL),
+(6, 'usuario1', '46d045ff5190f6ea93739da6c0aa19bc', 'usuario1@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -194,6 +215,20 @@ CREATE TABLE `usuariorol` (
   `idusuario` bigint(20) NOT NULL,
   `idrol` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuariorol`
+--
+
+INSERT INTO `usuariorol` (`idusuario`, `idrol`) VALUES
+(1, 1),
+(2, 1),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
+(5, 3),
+(6, 3);
 
 --
 -- Índices para tablas volcadas
@@ -313,13 +348,13 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
