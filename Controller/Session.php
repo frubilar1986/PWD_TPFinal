@@ -18,7 +18,7 @@ class Session {
     $abmUsuario = new AbmUsuario();
     $colUsuarios = $abmUsuario->buscar($condiciones);
 
-    if (count($colUsuarios) > 0) {
+    if (count($colUsuarios) > 0 && $colUsuarios[0]->getUsDeshabilitado() == null) {
       $usuario = $colUsuarios[0];
       $this->setObjUsuario($usuario);
       $_SESSION['idusuario'] = $usuario->getIdUsuario();
