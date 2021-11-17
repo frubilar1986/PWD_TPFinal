@@ -33,7 +33,7 @@
       </form>
       <div class="d-flex mx-5">
         <a class="boton-login nav-link" href="./carrito_compra.php"><i class="fas fa-shopping-cart"></i></a>
-        <a class="boton-login nav-link" href="#">Iniciar Sesion</a>
+        <a class="boton-login nav-link" href="./login.php">Iniciar Sesion</a>
         <a class="boton-login nav-link" href="#">Registrarse</a>
       </div>
     </div>
