@@ -44,26 +44,26 @@ class ListarUsuariosControl {
   }
 
   function esRol() {
-    $esRol['admin'] = false;
-    $esRol['editor'] = false;
+    $esRol['administrador'] = false;
+    $esRol['usuario'] = false;
 
     if (isset($_SESSION['idusuario'])) {
 
       $abmUsuario = new AbmUsuario();
       $condicionUsuario['idusuario'] = $_SESSION['idusuario'];
       $usuario  = $abmUsuario->buscar($condicionUsuario)[0];
-      
+
       $rolesUsuarioLog = $usuario->getColRoles();
 
       foreach ($rolesUsuarioLog as $rol) {
         if ($rol->getIdRol() == 1) {
-          $esRol['admin'] = true;
+          $esRol['administrador'] = true;
         }
-      }
-
-      foreach ($rolesUsuarioLog as $rol) {
+        if ($rol->getIdRol() == 2) {
+          $esRol['deposito'] = true;
+        }
         if ($rol->getIdRol() == 3) {
-          $esRol['editor'] = true;
+          $esRol['cliente'] = true;
         }
       }
     }

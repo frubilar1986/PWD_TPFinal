@@ -121,6 +121,8 @@ class AbmProducto {
         $where .= " and proprecio = {$param['proprecio']}";
       if (isset($param['propreciooferta']))
         $where .= " and propreciooferta = {$param['propreciooferta']}";
+      if (isset($param['busqueda']))
+        $where .= " and pronombre LIKE '%{$param["busqueda"]}%'";
     }
 
     $arreglo = Producto::listar($where);

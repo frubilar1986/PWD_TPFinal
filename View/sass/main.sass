@@ -1,8 +1,18 @@
-/** General **/
+body
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+
+  /** General **/
 *
   margin: 0
   padding: 0
   box-sizing: border-box
+
+footer
+  position: relative
+  bottom: -100px
 
 li
   list-style: none
@@ -39,9 +49,6 @@ li
 .boton-login
     // color: #FF5DA2
     // font-size: 10rem
-
-.precio
-  color: red
 
 hr
   margin-top: 1rem
@@ -96,8 +103,20 @@ hr
 .lindo-hover
   position: relative
 
-body
-  min-height: 100vh
-  display: flex
-  flex-direction: column
-  justify-content: space-between
+.estado
+  background-color: #ccc
+  color: #f4f4f4
+  border-radius: 50px
+  font-size:
+  &-realizado
+    background-color: #3E7C17
+  &-activo
+    background-color: #FBD148
+  &-espera
+    background-color: #ccc
+
+/** .boton
+ border: none
+ width: 30px
+ background-color: #ccc
+ **/

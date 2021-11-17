@@ -45,9 +45,9 @@ $usuarioEsRol = $controlLU->esRol();
             if ($objUsuario->getIdUsuario() != $_SESSION['idusuario']) {
               if (strpos($rolesUsuarioActual, 'administrador') !== false) { // Si el usuario listado es admin
                 $disabled = "disabled";
-              } elseif (strpos($rolesUsuarioActual, 'editor') !== false and !$usuarioEsRol['admin']) { // Si el usuario listado es editor y no soy admin
+              } elseif (strpos($rolesUsuarioActual, 'deposito') !== false and !$usuarioEsRol['administrador']) { // Si el usuario listado es deposito y no soy admin
                 $disabled = "disabled";
-              } elseif (!$usuarioEsRol['admin'] and !$usuarioEsRol['editor']) { // Si el usuario listado es miembro y no soy editor ni admin
+              } elseif (!$usuarioEsRol['administrador'] and !$usuarioEsRol['deposito']) { // Si el usuario listado es miembro y no soy deposito ni admin
                 $disabled = "disabled";
               }
             } else {
