@@ -37,9 +37,9 @@ class AbmMenuRol {
   private function cargarObjetoConClave($datos) {
     $obj = null;
 
-    if (isset($datos['idmenu'])) {
+    if (isset($datos['idmenu']) && isset($datos['idrol'])) {
       $obj = new MenuRol();
-      
+
       $objRol = new Rol();
       $objRol->setIdRol($datos['idrol']);
       $objRol->cargar();
@@ -47,7 +47,7 @@ class AbmMenuRol {
       $objMenu = new Menu();
       $objMenu->setIdMenu($datos['idmenu']);
       $objMenu->cargar();
-      
+
       $obj->setear($objMenu, $objRol);
     }
     return $obj;

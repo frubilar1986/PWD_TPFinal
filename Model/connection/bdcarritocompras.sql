@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2021 a las 22:21:45
+-- Tiempo de generación: 17-11-2021 a las 23:13:32
 -- Versión del servidor: 10.4.13-MariaDB
 -- Versión de PHP: 7.4.8
 
@@ -101,11 +101,22 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`idmenu`, `menombre`, `medescripcion`, `idpadre`, `medeshabilitado`) VALUES
+(1, 'Menu Administrador', 'menu del administrador', NULL, NULL),
+(2, 'Menu Deposito', 'kkkkk', NULL, NULL),
+(3, 'Menu Cliente', 'kkkkk', NULL, NULL),
+(4, 'Usuarios', 'Menu abm solo para administrador', 1, NULL),
+(5, 'Agregar Items Menu', 'Agregar nuevas opciones ', 1, NULL),
 (7, 'nuevo', 'kkkkk', NULL, NULL),
 (8, 'nuevo', 'kkkkk', NULL, NULL),
 (9, 'nuevo', 'kkkkk', 7, NULL),
 (10, 'nuevo', 'kkkkk', NULL, NULL),
-(11, 'nuevo', 'kkkkk', NULL, NULL);
+(11, 'nuevo', 'kkkkk', NULL, NULL),
+(12, 'Nuevo Producto', 'Agregar un producto nuevo', 2, NULL),
+(13, 'Modificar Productos', '', 2, NULL),
+(14, 'Estado Producto', '', 2, NULL),
+(15, 'Stock', '', 2, NULL),
+(16, 'Editar Datos Cliente', '', 3, NULL),
+(17, 'Comprar!', '', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -117,6 +128,23 @@ CREATE TABLE `menurol` (
   `idmenu` bigint(20) NOT NULL,
   `idrol` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `menurol`
+--
+
+INSERT INTO `menurol` (`idmenu`, `idrol`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 1),
+(5, 1),
+(12, 2),
+(13, 2),
+(14, 2),
+(15, 2),
+(16, 3),
+(17, 3);
 
 -- --------------------------------------------------------
 
@@ -336,7 +364,7 @@ ALTER TABLE `compraitem`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`

@@ -3,10 +3,10 @@
 <?php
 $control = new LoginControl();
 $sesion = $control->logear();
-// mostrarArray($sesion);
 ?>
 
 <?php
+
 if ($sesion != null && $sesion->getObjUsuario() != null) {
   if ($sesion->activa() and !$sesion->getObjUsuario()->getUsDeshabilitado()) {
     // echo "sesion activa y usuario no deshabilitado";

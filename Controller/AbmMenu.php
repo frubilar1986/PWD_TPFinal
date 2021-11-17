@@ -14,14 +14,17 @@ class AbmMenu {
       array_key_exists('idmenu', $datos) &&
       array_key_exists('menombre', $datos) &&
       array_key_exists('medescripcion', $datos) &&
-      array_key_exists('idpadre', $datos) &&
       array_key_exists('medeshabilitado', $datos)
     ) {
       $obj = new Menu();
 
-      $objPadre = new Menu();
-      $objPadre->setIdMenu($datos['idpadre']);
-      $objPadre->cargar();
+      if (isset($param['idpadre'])) {
+        $objPadre  = new Menu;
+        $objPadre->setIdMenu($param['idpadre']);
+        $objPadre->cargar();
+      } else {
+        $objPadre = null;
+      }
 
       $obj->setear($datos['idmenu'], $datos['menombre'], $datos['medescripcion'], $objPadre, $datos['medeshabilitado']);
     }

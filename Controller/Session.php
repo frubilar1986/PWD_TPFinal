@@ -63,7 +63,6 @@ class Session {
   }
 
   public function cerrar() {
-    var_dump($this->getObjUsuario());
     if ($this->getObjUsuario()) {
       session_unset();
       session_destroy();

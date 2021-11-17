@@ -6,6 +6,7 @@ include_once './includes/head.php'; ?>
 <?php include_once "./includes/navbar.php"; ?>
 
 <?php
+// mostrarArray($_GET);
 $controlProducto = new AbmProducto();
 
 if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
@@ -14,9 +15,14 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
   $param["idproducto"] = $_GET["id"];
   $producto = $controlProducto->buscar($param);
 
+  // mostrarArray($producto[0]->getProDetalle());
   $detallesPro = json_decode($producto[0]->getProDetalle(), true);
+  // mostrarArray($detallesPro);
+  // $asd = json_decode($arrProducto["prodetalle"]);
   $dirImg = md5($_GET["id"]);
+  // echo $dirImg;
   $arrImagenes = scandir($ROOT . "view/img/Productos/" . $dirImg);
+  // mostrarArray(scandir($ROOT . "view/img/Productos/" . $dirImg));
 ?>
 
   <div id="contenido-principal" class="container mt-5 d-flex border">
@@ -62,8 +68,8 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
 
             </div>
           </div>
-          <div id="informacion-producto" class="ms-5 d-flex flex-column justify-content-start align-items-start w-50">
-            <div id="informacion" class="w-100">
+          <div id="informacion-producto" class="ms-5 d-flex flex-column justify-content-start align-items-start ">
+            <div id="informacion" class="w-50">
               <h4><?= $producto[0]->getProNombre() ?></h4>
               <!-- PRECIO PRODUCTO -->
               <?php
@@ -85,58 +91,22 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
 
                 ?>
               </div>
+              <!-- NUEVO -->
+              <a class="btn btn-primary mt-4" href="carrito_compra.php?id=<?= $producto[0]->getIdProducto(); ?>" role="button">Agregar al Carrito</a>
+              <!-- NUEVO -->
               <hr>
-              <div id="cuotas">
-                <h5>Elegí las cuotas</h5>
-                <form action="">
-                  <div class="rounded  form-check bg-dark text-white d-flex align-items-center " style="height: 40px;">
-                    <input class="form-check-input  " style="margin-left: 1px;" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label ms-2" for="flexRadioDefault2">
-                      Sin Cuotas
-                    </label>
-                  </div>
-                  <div class="rounded mt-1 form-check bg-dark text-white d-flex align-items-center " style="height: 40px;">
-                    <input class="form-check-input  " style="margin-left: 1px;" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                    <label class="form-check-label ms-2" for="flexRadioDefault2">
-                      3 Cuotas Sin Interes
-                    </label>
-                  </div>
-                  <div class="rounded mt-1 form-check bg-dark text-white d-flex align-items-center " style="height: 40px;">
-                    <input class="form-check-input  " style="margin-left: 1px;" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                    <label class="form-check-label ms-2" for="flexRadioDefault2">
-                      6 Cuotas Sin Interes
-                    </label>
-                  </div>
-                  <div class="rounded mt-1 form-check bg-dark text-white d-flex align-items-center " style="height: 40px;">
-                    <input class="form-check-input  " style="margin-left: 1px;" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                    <label class="form-check-label ms-2" for="flexRadioDefault2">
-                      9 Cuotas
-                    </label>
-                  </div>
-                  <div class="rounded mt-1 form-check bg-dark text-white d-flex align-items-center " style="height: 40px;">
-                    <input class="form-check-input  " style="margin-left: 1px;" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                    <label class="form-check-label ms-2" for="flexRadioDefault2">
-                      12 Cuotas
-                    </label>
-                  </div>
-                  <!-- NUEVO -->
-                  <button type="submit" class="btn btn-primary mt-2">Agregar al Carrito</button>
-                  <!-- NUEVO -->
-                </form>
+            </div>
+            <div id="producto-descripcion" class="my-5 w-100">
+              <div>
+                <p class="uppercase">Descripción</p>
+                <p><?= $detallesPro["desc1"]; ?></p>
+                <p><?= $detallesPro["desc2"]; ?></p>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="container border" style="margin-top: 100px;">
-        <div id="producto-descripcion" class="m-3">
-          <div class="">
-            <p class="uppercase">Descripción</p>
-            <h2><?= $producto[0]->getProNombre() ?></h2>
-            <p><?= $detallesPro["desc1"]; ?></p>
-            <p><?= $detallesPro["desc2"]; ?></p>
-          </div>
-        </div>
         <div id="caracteristicas-tecnicas" class="m-3">
           <h4>Caracteristicas Técnicas</h4>
           <hr />

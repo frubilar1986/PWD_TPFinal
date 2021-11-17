@@ -80,11 +80,15 @@ class Menu {
         if ($res > 0) {
           $row = $base->Registro();
 
-          $objMenuPadre = new Menu();
-          $objMenuPadre->setIdMenu($row['idpadre']);
-          $objMenuPadre->cargar();
+          if ($row['idpadre'] != null) {
+            $objMenuPadre = new Menu();
+            $objMenuPadre->setIdMenu($row['idpadre']);
+            $objMenuPadre->cargar();
+          } else {
+            $objMenuPadre = null;
+          }
 
-          $this->setear($row['idmenu'], $row['menomnbre'], $row['medescripcion'], $objMenuPadre, $row['medeshabilitado']);
+          $this->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $objMenuPadre, $row['medeshabilitado']);
         }
       }
     } else {
@@ -164,10 +168,14 @@ class Menu {
         while ($row = $base->Registro()) {
           $obj = new Menu();
 
-          $objMenuPadre = new Menu();
-          $objMenuPadre->setIdMenu($row['idpadre']);
-          $objMenuPadre->cargar();
-
+          if ($row['idpadre'] != null) {
+            $objMenuPadre = new Menu();
+            $objMenuPadre->setIdMenu($row['idpadre']);
+            $objMenuPadre->cargar();
+          } else {
+            $objMenuPadre = null;
+          }
+          
           $obj->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $objMenuPadre, $row['medeshabilitado']);
 
           array_push($arreglo, $obj);

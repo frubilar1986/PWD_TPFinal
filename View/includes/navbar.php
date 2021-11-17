@@ -5,6 +5,21 @@ if ($sesion->getObjUsuario() != null) {
   $roles = $sesion->getObjUsuario()->getColRoles();
 }
 
+// Calculo el nombre del script actual
+$urlActual = $_SERVER['PHP_SELF'];
+$urlActual = explode('/', $urlActual);
+$urlActual = $urlActual[count($urlActual) - 1];
+
+if ($sesion->activa()) {
+  $abmMenuRol = new AbmMenuRol;
+  $menuRol = $abmMenuRol->buscar(['idrol' => $_SESSION['rol']]);
+
+  $abmMenu = new AbmMenu;
+  $menues = $abmMenu->buscar(['idmenu' => $_SESSION['rol']]);
+
+  $subMenues = $abmMenu->buscar(['idpadre' => $menues[0]->getIdMenu()]);
+}
+
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -13,6 +28,23 @@ if ($sesion->getObjUsuario() != null) {
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <li class="nav-item">
+          <?php if (isset($menues)) { ?>
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <?= $menues[0]->getMeNombre() ?>
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <?php foreach ($subMenues as $menu) {
+
+                  echo "<li><a class='dropdown-item' href='" . $menu->getMeNombre() . ".php'>" . $menu->getMeNombre() . "</a></li>";
+                } ?>
+              </ul>
+            </div>
+          <?php } ?>
+        </li>
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -49,21 +81,17 @@ if ($sesion->getObjUsuario() != null) {
       </form>
 
       <?php if ($roles) { ?>
+        <div class="dropdown">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Roles
+          </a>
 
-        <form class="mx-4" method="post">
-          <span class="navbar-text">
-            Rol:
-          </span>
-
-          <select aria-label="Default select example" onchange="cargarData">
-            <option value="0"> - </option>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <?php foreach ($roles as $rol) { ?>
-              <option value="<?= $rol->getIdRol() ?>"><?= $rol->getRoDescripcion() ?></option>
+              <li><a class='dropdown-item' href='cambiarRol.php?idrol=<?= $rol->getIdRol() ?>&url=<?= $urlActual ?>'><?= $rol->getRoDescripcion() ?> </a></li>
             <?php } ?>
-          </select>
-
-        </form>
-
+          </ul>
+        </div>
       <?php } ?>
 
       <div class="d-flex mx-5">
