@@ -21,12 +21,12 @@ if ($sesion->activa() && isset($_SESSION['rol'])) {
   $subMenues = $abmMenu->buscar(['idpadre' => $menues[0]->getIdMenu()]);
 }
 
- 
+
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand mx-5" href="#"><img src="./img/logo.png" alt="" style="width: 50px;"></a>
+    <a class="navbar-brand mx-5" href="<?= $INICIO ?>"><img src="./img/logo.png" alt="" style="width: 50px;"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -49,10 +49,6 @@ if ($sesion->activa() && isset($_SESSION['rol'])) {
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="./todos_productos.php">Inicio</a>
-        </li>
-
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="./estado_compra.php">Estado de Compra</a>
         </li>
@@ -97,7 +93,7 @@ if ($sesion->activa() && isset($_SESSION['rol'])) {
       <?php } ?>
 
       <div class="d-flex mx-5">
-        <a class="boton-login nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
+        <a class="boton-login nav-link" href="carrito_compra.php"><i class="fas fa-shopping-cart"></i></a>
         <?php if ($sesion->activa()) { ?>
           <a class="btn btn-danger" href="loginCerrar.php" role="button">Cerrar sesion</a>
         <?php } else { ?>

@@ -32,9 +32,10 @@ class Session {
     if ($this->objUsuario == null && isset($_SESSION['idusuario'])) {
       $abmUsuario = new AbmUsuario();
       $condiciones['idusuario'] = $_SESSION['idusuario'];
-      $usuario = $abmUsuario->buscar($condiciones)[0];
-
-      $this->setObjUsuario($usuario);
+      $usuario = $abmUsuario->buscar($condiciones);
+      if (count($usuario) > 0) {
+        $this->setObjUsuario($usuario);
+      }
     }
 
     return $this->objUsuario;

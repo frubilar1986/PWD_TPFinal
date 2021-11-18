@@ -32,33 +32,34 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
               <?php
               /* HAGO UN DO WHILE QUE RECORRA TODO EL DIR DE IMAGENES Y LAS USE TODAS */
               $i = 3;
-              do {
+
+              while ($i < count($arrImagenes)) {
               ?>
                 <div class="carousel-item">
                   <img src="./img/Productos/<?= $dirImg . '/' . $arrImagenes[$i] ?>" class="d-block w-100" alt="">
                 </div>
+
+
               <?php
                 $i++;
-              } while ($i < count($arrImagenes));
+              }
+
               ?>
             </div>
 
             <div class="carousel-indicators mt-4" style="position: relative; ">
               <?php
               $j = 2;
-              do {
-              ?>
 
+              while ($j < count($arrImagenes)) { ?>
                 <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?= $j - 2 ?>" class="active border px-2" aria-current="true" aria-label="Slide <?= $j - 1 ?>" src="./img/Productos/<?= $dirImg . '/' . $arrImagenes[$j] ?>" alt="" style="width: 53px; height: 82px;">
 
-              <?php
-                $j++;
-              } while ($j < count($arrImagenes));
-              ?>
+              <?php $j++;
+              } ?>
 
             </div>
           </div>
-          <div id="informacion-producto" class="ms-5 d-flex flex-column justify-content-start align-items-start ">
+          <div id="informacion-producto" class="ms-5 d-flex flex-column w-100 justify-content-start align-items-start ">
             <div id="informacion" class="w-50">
               <h4><?= $producto[0]->getProNombre() ?></h4>
               <!-- PRECIO PRODUCTO -->
@@ -131,26 +132,18 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
             </div>
             <div class="ms-5" style="width: 60%;">
               <ul class="d-flex flex-column flex-wrap" style="height: 70%;">
-                <?php if (array_key_exists("Modelo", $detallesPro)) { ?> <li class="bullet fw-light">Modelo: <?= $detallesPro['Modelo'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Camara Frontal", $detallesPro)) { ?> <li class="bullet fw-light">Cámara frontal: <?= $detallesPro['Camara frontal'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Sistema Operativo", $detallesPro)) { ?> <li class="bullet fw-light">Sistema Operativo: <?= $detallesPro['Sistema Operativo'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Tipo de SIM", $detallesPro)) { ?> <li class="bullet fw-light">Tipo de SIM: <?= $detallesPro['Tipo de SIM'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Red", $detallesPro)) { ?> <li class="bullet fw-light">Red: <?= $detallesPro['Red'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Frecuencia 2G", $detallesPro)) { ?> <li class="bullet fw-light">Frecuencia 2G: <?= $detallesPro['Frecuencia 2G']; ?> </li> <?php } ?>
-                <?php if (array_key_exists("Frecuencia 3G", $detallesPro)) { ?> <li class="bullet fw-light">Frecuencia 3G: <?= $detallesPro['Frecuencia 3G'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Frecuencia 4G", $detallesPro)) { ?> <li class="bullet fw-light">Frecuencia 4G: <?= $detallesPro['Frecuencia 4G'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Bateria", $detallesPro)) { ?> <li class="bullet fw-light">Bateria: <?= $detallesPro['Bateria'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Memoria RAM", $detallesPro)) { ?> <li class="bullet fw-light">Memoria RAM: <?= $detallesPro['Memoria RAM'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Memoria Interna", $detallesPro)) { ?> <li class="bullet fw-light">Memoria Interna: <?= $detallesPro['Memoria Interna'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Memoria Externa", $detallesPro)) { ?> <li class="bullet fw-light">Memoria Externa: <?= $detallesPro['Memoria Externa'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Peso", $detallesPro)) { ?> <li class="bullet fw-light">Peso: <?= $detallesPro['Peso'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Dimension del equipo", $detallesPro)) { ?> <li class="bullet fw-light">Dimensión del equipo: <?= $detallesPro['Dimension del equipo'] ?></li> <?php } ?>
-                <?php if (array_key_exists("NFC", $detallesPro)) { ?> <li class="bullet fw-light">NFC: <?= $detallesPro['NFC'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Auriculares Incluidos", $detallesPro)) { ?> <li class="bullet fw-light">Auriculares incluidos: <?= $detallesPro['Auriculares Incluidos'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Cargador Incluido", $detallesPro)) { ?> <li class="bullet fw-light">Cargador Incluido: <?= $detallesPro['Cargador Incluido'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Cable USB Incluido", $detallesPro)) { ?> <li class="bullet fw-light">Cable USB incluido: <?= $detallesPro['Cable USB Incluido'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Cover Incluido", $detallesPro)) { ?> <li class="bullet fw-light">Cover Incluido: <?= $detallesPro['Cover Incluido'] ?></li> <?php } ?>
-                <?php if (array_key_exists("Otros Accesorios Incluidos", $detallesPro)) { ?> <li class="bullet fw-light">Otros accesorios incluidos: <?= $detallesPro['Otros Accesorios Incluidos'] ?></li> <?php } ?>
+                <?php
+                unset($detallesPro['desc1']);
+                unset($detallesPro['desc2']);
+                unset($detallesPro['marca']);
+                unset($detallesPro['Camara Principal']);
+                unset($detallesPro['Display']);
+                unset($detallesPro['Procesador']);
+                unset($detallesPro['Celular Liberado']);
+                ?>
+                <?php foreach ($detallesPro as $caracteristica => $detalle) { ?>
+                  <li class="bullet fw-light"><?= $caracteristica ?>: <?= $detalle ?></li>
+                <?php } ?>
               </ul>
             </div>
           </div>

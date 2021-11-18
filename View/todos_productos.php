@@ -48,7 +48,7 @@ $arrProductos = $controlProducto->buscar("");
         if (($producto->getProCantStock() >= 0 && $soyAdmin) ||  $producto->getProCantStock() > 0) {
           $detallesProAct = json_decode($producto->getProDetalle(), true);
           $dirImgAct = md5($producto->getIdProducto());
-          $arrImagenesAct = scandir($ROOT . "view/img/Productos/" . $dirImgAct);
+          $arrImagenesAct = scandir($ROOT . "View/img/Productos/" . $dirImgAct);
 
       ?>
           <div data-item="<?= $detallesProAct["marca"] ?>" class="sombra-caja border item-box m-5 d-flex flex-column align-items-center justify-content-around" style="width: 282px; height: 559px">
@@ -79,5 +79,6 @@ $arrProductos = $controlProducto->buscar("");
       <?php }
       } ?>
   </div>
-  <?php include_once "./includes/footer.php"; ?>
-  <script src="./js/filtroCursos.js"></script>
+</div>
+<?php include_once "./includes/footer.php"; ?>
+<script src="./js/filtroCursos.js"></script>

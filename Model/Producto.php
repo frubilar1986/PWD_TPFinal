@@ -99,7 +99,7 @@ class Producto {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO producto (pronombre, prodetalle, procantstock, proprecio, propreciooferta) VALUES ('{$this->getProNombre()}}', '{$this->getProDetalle()}', {$this->getProCantStock()}, {$this->getProPrecio()}, {$this->getProPrecioOferta()})";
+    $sql = "INSERT INTO producto (pronombre, prodetalle, procantstock, proprecio, propreciooferta) VALUES ('{$this->getProNombre()}', '{$this->getProDetalle()}', {$this->getProCantStock()}, {$this->getProPrecio()}, {$this->getProPrecioOferta()})";
 
     if ($base->Iniciar()) {
       if ($id = $base->Ejecutar($sql)) {
