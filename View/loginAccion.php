@@ -10,6 +10,9 @@ $sesion = $control->logear();
 if ($sesion != null && $sesion->getObjUsuario() != null) {
   if ($sesion->activa() and !$sesion->getObjUsuario()->getUsDeshabilitado()) {
     // echo "sesion activa y usuario no deshabilitado";
+    $rolesUsuario = $sesion->getColRoles();
+    $_SESSION['rol'] = $rolesUsuario[0]->getIdRol();
+
     header("Status: 301 Moved Permanently");
     header("Location: $INICIO");
   } elseif ($sesion->getObjUsuario()->getUsDeshabilitado()) {

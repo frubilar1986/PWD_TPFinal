@@ -10,7 +10,8 @@ $urlActual = $_SERVER['PHP_SELF'];
 $urlActual = explode('/', $urlActual);
 $urlActual = $urlActual[count($urlActual) - 1];
 
-if ($sesion->activa()) {
+
+if ($sesion->activa() && isset($_SESSION['rol'])) {
   $abmMenuRol = new AbmMenuRol;
   $menuRol = $abmMenuRol->buscar(['idrol' => $_SESSION['rol']]);
 
@@ -20,6 +21,7 @@ if ($sesion->activa()) {
   $subMenues = $abmMenu->buscar(['idpadre' => $menues[0]->getIdMenu()]);
 }
 
+ 
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,21 +31,21 @@ if ($sesion->activa()) {
       <span class="navbar-toggler-icon"></span>
     </button>
     <li class="nav-item">
-          <?php if (isset($menues)) { ?>
-            <div class="dropdown">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                <?= $menues[0]->getMeNombre() ?>
-              </a>
+      <?php if (isset($menues)) { ?>
+        <div class="dropdown">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <?= $menues[0]->getMeNombre() ?>
+          </a>
 
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <?php foreach ($subMenues as $menu) {
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <?php foreach ($subMenues as $menu) {
 
-                  echo "<li><a class='dropdown-item' href='" . $menu->getMeNombre() . ".php'>" . $menu->getMeNombre() . "</a></li>";
-                } ?>
-              </ul>
-            </div>
-          <?php } ?>
-        </li>
+              echo "<li><a class='dropdown-item' href='" . $menu->getMeNombre() . ".php'>" . $menu->getMeNombre() . "</a></li>";
+            } ?>
+          </ul>
+        </div>
+      <?php } ?>
+    </li>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -80,7 +82,7 @@ if ($sesion->activa()) {
         <button class="btn border" type="submit"><i class="fas fa-search"></i></button>
       </form>
 
-      <?php if ($roles) { ?>
+      <?php if ($roles && count($roles) > 1) { ?>
         <div class="dropdown">
           <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Roles

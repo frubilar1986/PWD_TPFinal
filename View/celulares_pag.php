@@ -5,10 +5,7 @@
     <?php
     $controlProducto = new AbmProducto();
     $arrProductos = $controlProducto->buscar("");
-    // mostrarArray($arrProductos);
     ?>
-
-
 
     <div id="seccion-productos" class="container productos d-flex ">
       <div class="container d-flex flex-wrap justify-content-center">
@@ -36,10 +33,7 @@
           }
         } ?>
       </div>
-      <!--     <div class="item-box" data-item="web"><img src="./img/html5.png" alt=""></div>
-    <div class="item-box" data-item="web"><img src="./img/css.png" alt=""></div>
-    <div class="item-box" data-item="android"><img src="./img/android.png" alt=""></div>
-    <div class="item-box" data-item="Motorola"><img src="./img/android.png" alt=""></div> -->
+
 
     </div>
     <?php include_once "./includes/footer.php"; ?>

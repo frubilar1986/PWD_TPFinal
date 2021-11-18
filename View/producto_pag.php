@@ -6,23 +6,15 @@ include_once './includes/head.php'; ?>
 <?php include_once "./includes/navbar.php"; ?>
 
 <?php
-// mostrarArray($_GET);
 $controlProducto = new AbmProducto();
 
 if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
-
-
   $param["idproducto"] = $_GET["id"];
   $producto = $controlProducto->buscar($param);
 
-  // mostrarArray($producto[0]->getProDetalle());
   $detallesPro = json_decode($producto[0]->getProDetalle(), true);
-  // mostrarArray($detallesPro);
-  // $asd = json_decode($arrProducto["prodetalle"]);
   $dirImg = md5($_GET["id"]);
-  // echo $dirImg;
   $arrImagenes = scandir($ROOT . "view/img/Productos/" . $dirImg);
-  // mostrarArray(scandir($ROOT . "view/img/Productos/" . $dirImg));
 ?>
 
   <div id="contenido-principal" class="container mt-5 d-flex border">
@@ -31,8 +23,6 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
         <p>Celulares <?= $detallesPro["marca"]; ?> <span class="text-black-50">/</span> <?= $producto[0]->getProNombre() ?> </p>
         <div class="d-flex w-100">
           <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="width: 250px; height: 366px">
-
-
 
             <div class="carousel-inner active">
               <!-- CARGO PRIMER IMAGEN "MANUALMENTE" PARA QUE TENGA LA CLASE ACTIVE -->
@@ -91,9 +81,7 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
 
                 ?>
               </div>
-              <!-- NUEVO -->
               <a class="btn btn-primary mt-4" href="carrito_compra.php?id=<?= $producto[0]->getIdProducto(); ?>" role="button">Agregar al Carrito</a>
-              <!-- NUEVO -->
               <hr>
             </div>
             <div id="producto-descripcion" class="my-5 w-100">
@@ -172,15 +160,7 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
     </div>
   </div>
 
-  <div class="container">
-    <a href="">
-      <div id="carrito-compra" style="position: relative;">
-        <div class="bg-primary" class="d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%; position: fixed; bottom: 20px; right: 70px;">
-          <i class="fas fa-shopping-cart fs-5 text-light" style="position:relative; top: 50%; left: 50%;"></i>
-        </div>
-      </div>
-    </a>
-  </div>
+
 <?php } else {
   echo "<p class='container fs-3 mt-5'>No se encontro el celular buscado.</p>";
 } ?>
