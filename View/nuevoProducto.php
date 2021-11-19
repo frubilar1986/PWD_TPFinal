@@ -1,13 +1,13 @@
-<?php $title = 'Nuevo Celular';
+<?php $title = 'Nuevo Producto';
 include_once 'includes/head.php' ?>
 <?php include_once 'includes/navbar.php' ?>
 <?php include_once "../config.php" ?>
 
 
 <div class="container d-flex justify-content-center align-items-start text-center mt-20vh">
-  <form id="formulario" class="needs-validation w-100 p-4" enctype="multipart/form-data" action="nuevoCelularAccion.php" method="post" novalidate>
+  <form id="formulario-nuevo-producto" novalidate class="w-100 p-4 needs-validation" enctype="multipart/form-data" action="nuevoProductoAccion.php" method="post">
 
-    <h1 class="pb-3 text-primary">Nuevo Celular</h1>
+    <h1 class="pb-3 text-primary">Nuevo Producto</h1>
 
     <div class="row g-4">
       <div class="col-md">
@@ -35,7 +35,7 @@ include_once 'includes/head.php' ?>
 
       <div class="col-md">
         <div class="form-floating mb-3">
-          <input type="number" name="propreciooferta" class="form-control" id="propreciooferta" min="0" placeholder="Precio Oferta" required>
+          <input type="number" name="propreciooferta" class="form-control" id="propreciooferta" min="0" placeholder="Precio Oferta">
           <label for="propreciooferta">Precio Oferta</label>
         </div>
       </div>
@@ -52,22 +52,20 @@ include_once 'includes/head.php' ?>
 
     <div class="form-floating mb-3">
       <textarea class="form-control" name="prodetalle[desc1]" placeholder="Sinopsis" id="prodetalle[desc1]" style="height: 100px; resize: none;" required></textarea>
-      <label for="prodetalle[desc1]">Sinopsis</label>
-      <div class="invalid-feedback">Este campo es obligatorio</div>
+      <label for="prodetalle[desc1]">Primer descripción</label>
     </div>
 
     <div class="form-floating mb-3">
       <textarea class="form-control" name="prodetalle[desc2]" placeholder="Sinopsis" id="prodetalle[desc2]" style="height: 100px; resize: none;" required></textarea>
-      <label for="prodetalle[desc2]">Sinopsis</label>
-      <div class="invalid-feedback">Este campo es obligatorio</div>
+      <label for="prodetalle[desc2]">Segunda descripción</label>
     </div>
 
 
     <div class="form-group mb-3">
       <label for="imagen" class="form-label">
-        <h5>Imagenes del Celular</h5>
+        <h5>Imagenes del Producto</h5>
       </label><br>
-      <input type="file" name="imagen" class="form-control" id="imagen" accept="image/*" multiple required>
+      <input type="file" name="imagen[]" class="form-control" id="imagen" accept="image/*" multiple required>
       <small class="form-text text-muted">(maximo 20M)</small>
     </div>
 
@@ -76,7 +74,7 @@ include_once 'includes/head.php' ?>
       <label for="imagen" class="form-label">
         <h5>Caracteristicas Técnicas</h5>
       </label><br>
-      <input type="text" name="prodetalle[Camara Principal]" class="form-control mb-3" id="prodetalle[Camara principal]" placeholder="Cámara Principal" required>
+      <input type="text" name="prodetalle[Camara Principal]" class="form-control mb-3" id="prodetalle[Camara Principal]" placeholder="Cámara Principal" required>
       <input type="text" name="prodetalle[Display]" class="form-control mb-3" id="display" placeholder="Display" required>
       <input type="text" name="prodetalle[Procesador]" class="form-control mb-3" id="procesador" placeholder="Procesador" required>
       <input type="text" name="prodetalle[Celular Liberado]" class="form-control mb-3" id="liberado" placeholder="Liberado" required>
@@ -102,8 +100,9 @@ include_once 'includes/head.php' ?>
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-<script src="js/validation.js"></script>
 <script src="js/addCaracteristica.js"></script>
+<script src="js/validation.js"></script>
 
 <?php include_once 'includes/footer.php' ?>

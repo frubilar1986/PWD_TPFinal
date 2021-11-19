@@ -95,7 +95,7 @@ if ($sesion->activa() && isset($_SESSION['rol'])) {
       <div class="d-flex mx-5">
         <a class="boton-login nav-link" href="carrito_compra.php"><i class="fas fa-shopping-cart"></i></a>
         <?php if ($sesion->activa()) { ?>
-          <a class="btn btn-danger" href="loginCerrar.php" role="button">Cerrar sesion</a>
+          <a class="btn btn-outline-primary" href="loginCerrar.php" role="button">Cerrar sesion</a>
         <?php } else { ?>
           <a class="btn btn-primary" href="login.php" role="button">Iniciar sesión</a>
         <?php } ?>

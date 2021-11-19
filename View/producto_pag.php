@@ -61,26 +61,22 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
           </div>
           <div id="informacion-producto" class="ms-5 d-flex flex-column w-100 justify-content-start align-items-start ">
             <div id="informacion" class="w-50">
-              <h4><?= $producto[0]->getProNombre() ?></h4>
+              <h2 class="fs-1"><?= $producto[0]->getProNombre() ?></h2>
               <!-- PRECIO PRODUCTO -->
-              <?php
-              if ($producto[0]->getProPrecioOferta() != null) {
-                echo "<p class='fw-bold'><del>\${$producto[0]->getProPrecio()}</del> <span class='fs-4'>\${$producto[0]->getProPrecioOferta()}</span></p>";
-              } else {
-                echo "<p class='fw-bold fs-4'>\${$producto[0]->getProPrecio()} </p>";
-              }
-              ?>
+              <?php if ($producto[0]->getProPrecioOferta() != null) { ?>
+                <p class='fs-5 text-muted mb-0 text-decoration-line-through'>$<?= $producto[0]->getProPrecio() ?></p>
+                <p class='fs-3'>$<?= $producto[0]->getProPrecioOferta() ?></p>
+              <?php } else { ?>
+                <p class='fs-3'>$<?= $producto[0]->getProPrecio() ?></p>
+              <?php } ?>
               <div class="d-flex">
-                <p class="me-5 text-success"><i class="fas fa-check fa-xs text-success"></i> Envio Gratis</p>
+                <p class="me-5 text-success text-nowrap"><i class="fas fa-check fa-xs text-success"></i> Envio Gratis</p>
                 <!-- ¿HAY STOCK? -->
-                <?php
-                if ($producto[0]->getProCantStock() > 0) {
-                  echo '<p class="text-success"><i class="fas fa-check fa-xs text-success"></i> Hay stock </p>';
-                } else {
-                  echo '<p class="text-danger"><i class="fas fa-times fa-xs text-danger"></i> No hay stock </p>';
-                }
-
-                ?>
+                <?php if ($producto[0]->getProCantStock() > 0) { ?>
+                  <p class="text-success text-nowrap"><i class="fas fa-check fa-xs text-success"></i> Hay stock </p>
+                <?php } else { ?>
+                  <p class="text-danger text-nowrap"><i class="fas fa-times fa-xs text-danger"></i> No hay stock </p>
+                <?php } ?>
               </div>
               <a class="btn btn-primary mt-4" href="carrito_compra.php?id=<?= $producto[0]->getIdProducto(); ?>" role="button">Agregar al Carrito</a>
               <hr>
@@ -104,8 +100,8 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
               <div id="camara-info" class="d-flex border align-items-center my-2">
                 <img src="./img/camara.png" alt="" class="fondo-desc-color p-2">
                 <div class="ms-3">
-                  <p class="m-0">Cámara principal</p>
-                  <p class="m-0 fw-bold"><?= $detallesPro["Camara principal"]; ?></p>
+                  <p class="m-0">Cámara Principal</p>
+                  <p class="m-0 fw-bold"><?= $detallesPro["Camara Principal"]; ?></p>
                 </div>
               </div>
               <div id="display-info" class="d-flex border align-items-center my-2">
@@ -131,7 +127,7 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
               </div>
             </div>
             <div class="ms-5" style="width: 60%;">
-              <ul class="d-flex flex-column flex-wrap" style="height: 70%;">
+              <ul class="d-flex flex-column" style="height: 70%;">
                 <?php
                 unset($detallesPro['desc1']);
                 unset($detallesPro['desc2']);

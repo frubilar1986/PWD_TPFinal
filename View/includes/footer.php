@@ -7,7 +7,6 @@
         <p class="mb-0">tienda@ddr.com</p>
         <p class="mb-0"> © 2021 Copyright: Tienda DDR</p>
         <p class="mb-0"> +54 (299) 5748291</p>
-
       </div>
       <!-- Copyright -->
     </footer>

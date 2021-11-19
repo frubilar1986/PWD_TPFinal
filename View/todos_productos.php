@@ -5,7 +5,6 @@ include_once './includes/head.php'; ?>
 <?php
 $controlProducto = new AbmProducto();
 $arrProductos = $controlProducto->buscar("");
-// mostrarArray($arrProductos);
 ?>
 
 <div class="container mb-5">
@@ -33,43 +32,38 @@ $arrProductos = $controlProducto->buscar("");
 
     ?>
       <div class="sombra-caja border item-box m-5 d-flex flex-column align-items-center justify-content-center" style="width: 282px; height: 559px">
-        <h5>Agregar Celular</h5>
-        <a href="./producto_pag.php?id=3">
-          <i class="fas fa-plus fa-10x"></i>
+        <h5 class="mb-5">Agregar Celular</h5>
+        <a href="./nuevoProducto.php">
+          <i class="bi bi-plus-circle" style="font-size: 8rem;"></i>
         </a>
-      <?php }
-    /* else {
-            echo "<div></div>";
-        } */
-      ?>
+      <?php } ?>
       </div>
       <?php
       foreach ($arrProductos as $producto) {
         if (($producto->getProCantStock() >= 0 && $soyAdmin) ||  $producto->getProCantStock() > 0) {
           $detallesProAct = json_decode($producto->getProDetalle(), true);
           $dirImgAct = md5($producto->getIdProducto());
-          $arrImagenesAct = scandir($ROOT . "View/img/Productos/" . $dirImgAct);
+          $arrImagenesAct = scandir("{$ROOT}View/img/Productos/{$dirImgAct}");
 
       ?>
-          <div data-item="<?= $detallesProAct["marca"] ?>" class="sombra-caja border item-box m-5 d-flex flex-column align-items-center justify-content-around" style="width: 282px; height: 559px">
-            <h5><?= $producto->getProNombre() ?></h5>
+          <div data-item="<?= $detallesProAct["marca"] ?>" class="sombra-caja border item-box m-5 py-4 d-flex flex-column align-items-center justify-content-around" style="width: 282px; height: 559px">
+            <h3><?= $producto->getProNombre() ?></h3>
             <a href="./producto_pag.php?id=<?= $producto->getIdProducto() ?>&nombrecel=<?= $producto->getProNombre() ?>">
-              <img src="./img/Productos/<?= $dirImgAct . '/' . $arrImagenesAct[2] ?>" alt="" style="width: 250px;">
+              <img src="./img/Productos/<?= "{$dirImgAct}/{$arrImagenesAct[2]}" ?>" alt="" style="width: 250px;">
             </a>
             <?php
-            if ($producto->getProCantStock() == 0) {
-              echo "<p class='fw-bold text-danger'>Producto sin stock</span></p>";
-            } else if ($producto->getProPrecioOferta() != null) {
-              echo "<p class='fw-bold'><del>\${$producto->getProPrecio()}</del> <span class='fs-4'>\${$producto->getProPrecioOferta()}</span></p>";
-            } else {
-              echo "<p class='fw-bold fs-4'>\${$producto->getProPrecio()} </p>";
-            }
-            ?>
+            if ($producto->getProCantStock() == 0) { ?>
+              <p class='fw-bold text-danger'>Producto sin stock</span></p>
+            <?php } else if ($producto->getProPrecioOferta() != null) { ?>
+              <p class="text-nowrap">
+                <span class='text-muted text-decoration-line-through'>$<?= $producto->getProPrecio() ?></span>
+                <span class='fs-4'>$<?= $producto->getProPrecioOferta() ?></span>
+              </p>
+            <?php } else { ?>
+              <p class='fs-4'>$<?= $producto->getProPrecio() ?> </p>
+            <?php } ?>
 
-            <?php
-            if ($soyAdmin) {
-
-            ?>
+            <?php if ($soyAdmin) { ?>
               <div class="d-flex">
                 <a href="./producto_pag.php?id=<?= $producto->getIdProducto() ?>" class="  btn btn-primary mx-1 mb-2">Editar</a>
                 <a href="./producto_pag.php?id=<?= $producto->getIdProducto() ?>" class=" btn btn-danger mx-1 mb-2">Eliminar</a>
