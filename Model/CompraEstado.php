@@ -124,19 +124,24 @@ class CompraEstado {
     $base = new DataBase();
     $sql = "UPDATE compraestado SET 
       idcompra = {$this->getObjCompra()->getIdCompra()},
-      idcompraestado = {$this->getObjCompraEstTipo()->getIdCompraEstTipo()},
+      idcompraestadotipo = {$this->getObjCompraEstTipo()->getIdCompraEstTipo()},
       cefechaini = '{$this->getCeFechaIni()}',
-      cefechafin=" . (($this->getCeFechaFin() == '') ? "NULL" : "'{$this->getCeFechaFin()}'") . ",
+      cefechafin=" . (($this->getCeFechaFin() == '') ? "NULL" : "'{$this->getCeFechaFin()}'") . "
       WHERE idcompraestado = {$this->getIdCompraEstado()}";
 
-
+    // echo $sql;
     if ($base->Iniciar()) {
+      // echo "ASD";
       if ($base->Ejecutar($sql)) {
         $resp = true;
+        // echo "ad";
       } else {
+      // echo "ASD2222";
+
         $this->setMsjError("Tabla->modificar: {$base->getError()}");
       }
     } else {
+
       $this->setMsjError("Tabla->modificar: {$base->getError()}");
     }
     return $resp;
@@ -165,6 +170,7 @@ class CompraEstado {
     if ($parametro != "") {
       $sql .= " WHERE {$parametro}";
     }
+    // echo $sql;
     $res = $base->Ejecutar($sql);
     if ($res > -1) {
       if ($res > 0) {

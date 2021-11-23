@@ -2,13 +2,13 @@
 
 class Producto {
 
-  // agregar propreciooferta
   private $idproducto;
   private $pronombre;
   private $prodetalle;
   private $procantstock;
   private $proprecio;
   private $propreciooferta;
+  private $prodeshabilitado;
   private $msjerror;
 
   public function __construct() {
@@ -18,15 +18,17 @@ class Producto {
     $this->procantstock = null;
     $this->proprecio = null;
     $this->propreciooferta = null;
+    $this->prodeshabilitado = null;
   }
 
-  public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $proprecio, $propreciooferta) {
+  public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $proprecio, $propreciooferta, $prodeshabilitado) {
     $this->setIdProducto($idproducto);
     $this->setPronombre($pronombre);
-    $this->setproDetalle($prodetalle);
+    $this->setProDetalle($prodetalle);
     $this->setProCantStock($procantstock);
     $this->setProPrecio($proprecio);
     $this->setProPrecioOferta($propreciooferta);
+    $this->setProDeshabilitado($prodeshabilitado);
   }
 
   public function getIdProducto() {
@@ -71,6 +73,13 @@ class Producto {
     $this->propreciooferta = $propreciooferta;
   }
 
+  public function getProDeshabilitado() {
+    return $this->prodeshabilitado;
+  }
+  public function setProDeshabilitado($prodeshabilitado) {
+    $this->prodeshabilitado = $prodeshabilitado;
+  }
+
   public function getMsjError() {
     return $this->msjerror;
   }
@@ -87,7 +96,7 @@ class Producto {
       if ($res > -1) {
         if ($res > 0) {
           $row = $base->Registro();
-          $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio'], $row['propreciooferta']);
+          $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio'], $row['propreciooferta'], $row['prodeshabilitado']);
         }
       }
     } else {
@@ -99,7 +108,9 @@ class Producto {
   public function insertar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO producto (pronombre, prodetalle, procantstock, proprecio, propreciooferta) VALUES ('{$this->getProNombre()}', '{$this->getProDetalle()}', {$this->getProCantStock()}, {$this->getProPrecio()}, {$this->getProPrecioOferta()})";
+    $sql = "
+    INSERT INTO producto (pronombre, prodetalle, procantstock, proprecio, propreciooferta, prodeshabilitado) 
+    VALUES ('{$this->getProNombre()}', '{$this->getProDetalle()}', {$this->getProCantStock()}, {$this->getProPrecio()}," . (($this->getProPrecioOferta() == NULL) ? 'NULL' : "{$this->getProPrecioOferta()}") . ", " . (($this->getProDeshabilitado() == NULL) ? 'NULL' : "'{$this->getProDeshabilitado()}'") . ")";
 
     if ($base->Iniciar()) {
       if ($id = $base->Ejecutar($sql)) {
@@ -118,12 +129,20 @@ class Producto {
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE producto SET pronombre = '{$this->getProNombre()}', prodetalle = '{$this->getProDetalle()}', procantstock = {$this->getProCantStock()}, proprecio= {$this->getProPrecio()}, propreciooferta= {$this->getProPrecioOferta()} WHERE idproducto = {$this->getIdProducto()}";
+    $sql = "UPDATE producto SET
+      pronombre = '{$this->getProNombre()}',
+      prodetalle = '" . str_replace("'", "''", $this->getProDetalle()) . "',
+      procantstock = {$this->getProCantStock()},
+      proprecio = {$this->getProPrecio()},
+      propreciooferta = " . (($this->getProPrecioOferta() == NULL) ? 'NULL' : "{$this->getProPrecioOferta()}") . ",
+      prodeshabilitado = " . (($this->getProDeshabilitado() == NULL) ? 'NULL' : "'{$this->getProDeshabilitado()}'") . "
+      WHERE idproducto = {$this->getIdProducto()}";
+    	// echo $sql;
     if ($base->Iniciar()) {
-      if ($base->Ejecutar($sql)) {
+      if ($base->Ejecutar($sql)>-1) { // Modificar si hace falta o cambiar el modifcar producto
         $resp = true;
       } else {
-        $this->setMsjError("Tabla->modificar: { $base->getError()}");
+        $this->setMsjError("Tabla->modificar: {$base->getError()}");
       }
     } else {
       $this->setMsjError("Tabla->modificar: {$base->getError()}");
@@ -160,7 +179,7 @@ class Producto {
         while ($row = $base->Registro()) {
           $obj = new Producto();
 
-          $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio'], $row['propreciooferta']);
+          $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['proprecio'], $row['propreciooferta'], $row['prodeshabilitado']);
 
           array_push($arreglo, $obj);
         }

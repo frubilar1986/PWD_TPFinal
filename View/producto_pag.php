@@ -1,6 +1,10 @@
 <?php
-if (array_key_exists("nombrecel", $_GET)) {
-  $title =  $_GET["nombrecel"];
+include_once '../config.php';
+
+$data = data_submitted();
+
+if (array_key_exists("nombrecel", $data)) {
+  $title =  $data["nombrecel"];
 } else $title = "Celular";
 include_once './includes/head.php'; ?>
 <?php include_once "./includes/navbar.php"; ?>
@@ -8,13 +12,14 @@ include_once './includes/head.php'; ?>
 <?php
 $controlProducto = new AbmProducto();
 
-if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
-  $param["idproducto"] = $_GET["id"];
+
+if (array_key_exists("id", $data) && $data["id"] != null) {
+  $param["idproducto"] = $data["id"];
   $producto = $controlProducto->buscar($param);
 
   $detallesPro = json_decode($producto[0]->getProDetalle(), true);
-  $dirImg = md5($_GET["id"]);
-  $arrImagenes = scandir($ROOT . "view/img/Productos/" . $dirImg);
+  $dirImg = md5($data["id"]);
+  $arrImagenes = scandir($ROOT . "View/img/Productos/" . $dirImg);
 ?>
 
   <div id="contenido-principal" class="container mt-5 d-flex border">
@@ -27,7 +32,8 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
             <div class="carousel-inner active">
               <!-- CARGO PRIMER IMAGEN "MANUALMENTE" PARA QUE TENGA LA CLASE ACTIVE -->
               <div class="carousel-item active">
-                <img src="./img/Productos/<?= $dirImg . '/' . $arrImagenes[2] ?>" class="d-block w-100" alt="">
+                <!-- <img src="<?= $dirImg . '/' . $arrImagenes[2] ?>" class="d-block w-100" alt=""> -->
+                <img src="./img/Productos/<?= (count($arrImagenes) > 2) ? ($dirImg . '/' . $arrImagenes[2]) : ('producto-sin-imagen.png'); ?>" class="d-block w-100" alt="">
               </div>
               <?php
               /* HAGO UN DO WHILE QUE RECORRA TODO EL DIR DE IMAGENES Y LAS USE TODAS */
@@ -35,7 +41,7 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
 
               while ($i < count($arrImagenes)) {
               ?>
-                <div class="carousel-item">
+                <div class="carousel-item ">
                   <img src="./img/Productos/<?= $dirImg . '/' . $arrImagenes[$i] ?>" class="d-block w-100" alt="">
                 </div>
 
@@ -47,7 +53,7 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
               ?>
             </div>
 
-            <div class="carousel-indicators mt-4" style="position: relative; ">
+            <div class="carousel-indicators m-0 mt-4 flex-wrap" style="position: relative; max-width: 245px">
               <?php
               $j = 2;
 
@@ -78,7 +84,13 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
                   <p class="text-danger text-nowrap"><i class="fas fa-times fa-xs text-danger"></i> No hay stock </p>
                 <?php } ?>
               </div>
-              <a class="btn btn-primary mt-4" href="carrito_compra.php?id=<?= $producto[0]->getIdProducto(); ?>" role="button">Agregar al Carrito</a>
+              <?php if ($producto[0]->getProCantStock() > 0) { ?>
+                <form action="carrito_compra.php" method="POST">
+                  <input type="number" class="hide" value="<?= $producto[0]->getIdProducto(); ?>" name="idproducto">
+                  <button type="submit" class="btn btn-primary mt-4">Agregar al Carrito</button>
+
+                </form>
+              <?php } ?>
               <hr>
             </div>
             <div id="producto-descripcion" class="my-5 w-100">
@@ -96,7 +108,7 @@ if (array_key_exists("id", $_GET) && $_GET["id"] != null) {
           <h4>Caracteristicas Técnicas</h4>
           <hr />
           <div class="d-flex">
-            <div class="general d-flex flex-column" style="width: 40%;">
+            <div class="general d-flex flex-column justify-content-between" style="width: 40%;">
               <div id="camara-info" class="d-flex border align-items-center my-2">
                 <img src="./img/camara.png" alt="" class="fondo-desc-color p-2">
                 <div class="ms-3">

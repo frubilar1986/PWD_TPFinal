@@ -3,25 +3,20 @@
 /* Funcion que submite al arreglo get o post y lo coloca en un arreglo
 asociativo; Util para que el proyecto no dependa de si es post o get */
 function data_submitted() {
-  // echo " dentro de data_submitted ";
   $arreglo = array();
   if (!empty($_POST)) { //si No esta vacio en method post
-    // code...
-    // print_r($_POST);
     $arreglo = $_POST;
   } elseif (!empty($_GET)) {
     $arreglo = $_GET;
   }
   if (count($arreglo)) {
-    // code... si existen campos vacios, carga null en el arreglo asoci
+    // si existen campos vacios, carga null en el arreglo asoci
     foreach ($arreglo as $clave => $valor) {
       if ($valor == "") {
         $arreglo[$clave] = 'null';
-        //echo "hay null";
       }
     }
   }
-  // print_r($arreglo);
   return $arreglo;
 }
 /***
@@ -51,7 +46,6 @@ spl_autoload_register(function ($clase) {
 
 
 
-  // mostrarArray($directorios);
   foreach ($directorios as $directorio) {
     // echo "aqui se incluye" . $directorio . $clase . ".php<br>";
 
@@ -59,7 +53,7 @@ spl_autoload_register(function ($clase) {
       // echo "aqui se incluye" . $directorio . $clase . ".php";
       require_once($directorio . $clase . ".php");
 
-      include_once($directorio.$clase.".php");
+      include_once($directorio . $clase . ".php");
       return;
     }
   }
@@ -74,6 +68,38 @@ function fecha($dias = 0) {
   }
   $date = $date->format('Y-m-d H:i:s');
   return $date;
+}
+
+//Ordenar arreglo
+function opp2($a, $b) {
+  return strcmp($a->getProDeshabilitado(), $b->getProDeshabilitado());
+}
+
+function opp($a, $b) {
+  return strcmp($a->getProNombre(), $b->getProNombre());
+}
+
+function ordenarArregloProductos($array) {
+  $proDes = [];
+  $proHab = [];
+  foreach ($array as $usuario) {
+    if ($usuario->getProDeshabilitado()) {
+      $proDes[] = $usuario;
+    } else {
+      $proHab[] = $usuario;
+    }
+  }
+
+  if ($proHab) {
+    usort($proHab, "opp");
+  }
+
+  if ($proDes) {
+    usort($proDes, "opp");
+  }
+
+  $resultado = array_merge($proHab, $proDes);
+  return $resultado;
 }
 
 //Ordenar arreglo
@@ -106,6 +132,11 @@ function ordenarArregloUsuarios($array) {
 
   $resultado = array_merge($usuariosHabilitados, $usuariosDeshabilitados);
   return $resultado;
+}
+
+function isJson($string) {
+  json_decode($string);
+  return json_last_error() === JSON_ERROR_NONE;
 }
 
 ?>

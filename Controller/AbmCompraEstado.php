@@ -1,23 +1,25 @@
 <?php
 
-class AbmCompraEstado {
+class AbmCompraEstado
+{
 
   /**
    * Espera como parametro un arreglo asociativo donde las claves coinciden con los nombres de las variables instancias del objeto
    * @param array $datos
    * @return CompraEstado
    */
-  private function cargarObjeto($datos) {
+  private function cargarObjeto($datos)
+  {
     $obj = null;
-
+    // mostrarArray(($datos));
     if (
       array_key_exists('idcompraestado', $datos) &&
       array_key_exists('idcompra', $datos) &&
-      array_key_exists('idcompraestadoTipo', $datos) &&
+      array_key_exists('idcompraestadotipo', $datos) &&
       array_key_exists('cefechaini', $datos) &&
       array_key_exists('cefechafin', $datos)
     ) {
-
+      // echo 'in';
       $obj = new CompraEstado();
 
       $objCompra = new Compra();
@@ -38,7 +40,8 @@ class AbmCompraEstado {
    * @param array $datos
    * @return CompraEstado
    */
-  private function cargarObjetoConClave($datos) {
+  private function cargarObjetoConClave($datos)
+  {
     $obj = null;
 
     if (isset($datos['idcompraestado'])) {
@@ -55,7 +58,8 @@ class AbmCompraEstado {
    * @return boolean
    */
 
-  private function seteadosCamposClaves($datos) {
+  private function seteadosCamposClaves($datos)
+  {
     $resp = false;
     if (isset($datos['idcompraestado']))
       $resp = true;
@@ -67,11 +71,13 @@ class AbmCompraEstado {
    * @param array $datos
    * @return boolean
    */
-  public function alta($datos) {
+  public function alta($datos)
+  {
+    // echo "asd";
     $resp = false;
     $datos['idcompraestado'] = null;
+    // mostrarArray($datos);
     $obj = $this->cargarObjeto($datos);
-
     if ($obj != null and $obj->insertar()) {
       $resp = true;
     }
@@ -83,7 +89,8 @@ class AbmCompraEstado {
    * @param array $datos
    * @return boolean
    */
-  public function baja($datos) {
+  public function baja($datos)
+  {
     $resp = false;
     if ($this->seteadosCamposClaves($datos)) {
       $obj = $this->cargarObjetoConClave($datos);
@@ -100,12 +107,18 @@ class AbmCompraEstado {
    * @param array $datos
    * @return boolean
    */
-  public function modificacion($datos) {
+  public function modificacion($datos)
+  {
     $resp = false;
+    // echo "1";
     if ($this->seteadosCamposClaves($datos)) {
+      // echo "2";
+
       $obj = $this->cargarObjeto($datos);
+      // print_r($obj);
       if ($obj != null and $obj->modificar()) {
         $resp = true;
+        echo "3";
       }
     }
     return $resp;
@@ -116,7 +129,8 @@ class AbmCompraEstado {
    * @param array $datos
    * @return array
    */
-  public function buscar($datos) {
+  public function buscar($datos)
+  {
     $where = " true ";
     if ($datos <> NULL) {
       if (isset($datos['idcompraestado']))

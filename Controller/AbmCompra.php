@@ -14,7 +14,7 @@ class AbmCompra {
     if (
       array_key_exists('idcompra', $datos) &&
       array_key_exists('cofecha', $datos) &&
-      array_key_exists('idUsuario', $datos)
+      array_key_exists('idusuario', $datos)
     ) {
       $obj = new Compra();
 
@@ -62,12 +62,12 @@ class AbmCompra {
    * @param array $datos
    */
   public function alta($datos) {
-    $resp = false;
+    $resp["exito"] = false;
     $datos['idcompra'] = null;
     $obj = $this->cargarObjeto($datos);
-
     if ($obj != null && $obj->insertar()) {
-      $resp = true;
+      $resp["exito"] = true;
+      $resp["idcompra"] = $obj->getIdCompra();
     }
     return $resp;
   }

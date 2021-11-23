@@ -50,14 +50,14 @@ class CompraEstadoTipo {
   public function cargar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "SELECT * FROM compraestadotipo WHERE idcompraestaditipo = {$this->getIdCompraEstTipo()}";
+    $sql = "SELECT * FROM compraestadotipo WHERE idcompraestadotipo = {$this->getIdCompraEstTipo()}";
     if ($base->Iniciar()) {
       $res = $base->Ejecutar($sql);
       if ($res > -1) {
         if ($res > 0) {
           $row = $base->Registro();
 
-          $this->setear($row['idcompraestaditipo'], $row['cetdescripcion'], $row['cetdetalle']);
+          $this->setear($row['idcompraestadotipo'], $row['cetdescripcion'], $row['cetdetalle']);
         }
       }
     } else {

@@ -2,6 +2,7 @@
 class Session {
   private $objUsuario;
   private $colRoles;
+  private $rolActual;
 
   public function __construct() {
     if (session_status() === PHP_SESSION_NONE) {
@@ -33,10 +34,11 @@ class Session {
       $abmUsuario = new AbmUsuario();
       $condiciones['idusuario'] = $_SESSION['idusuario'];
       $usuario = $abmUsuario->buscar($condiciones);
+      
       if (count($usuario) > 0) {
-        $this->setObjUsuario($usuario);
+        $this->setObjUsuario($usuario[0]);
       }
-    }
+  }
 
     return $this->objUsuario;
   }
@@ -53,6 +55,16 @@ class Session {
   }
   public function setColRoles($colRoles) {
     $this->colRoles = $colRoles;
+  }
+  
+  public function getRolActual() {
+    if (isset($_SESSION['rol'])) {
+      $this->setRolActual($_SESSION['rol']);
+    }
+    return $this->rolActual;
+  }
+  public function setRolActual($rolActual) {
+    $this->rolActual = $rolActual;
   }
 
   public function validar() {

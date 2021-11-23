@@ -15,11 +15,13 @@ class AbmProducto {
       array_key_exists('pronombre', $param) &&
       array_key_exists('prodetalle', $param) &&
       array_key_exists('procantstock', $param) &&
-      array_key_exists('proprecio', $param)
+      array_key_exists('proprecio', $param) &&
+      array_key_exists('propreciooferta', $param) &&
+      array_key_exists('prodeshabilitado', $param)
     ) {
       $obj = new Producto();
 
-      $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['proprecio'], $param['propreciooferta']);
+      $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['proprecio'], $param['propreciooferta'], $param['prodeshabilitado']);
     }
     return $obj;
   }
@@ -34,7 +36,7 @@ class AbmProducto {
 
     if (isset($param['idproducto'])) {
       $obj = new Producto();
-      $obj->setear($param['idproducto'], null, null, null, null, null);
+      $obj->setear($param['idproducto'], null, null, null, null, null, null);
     }
     return $obj;
   }
@@ -92,6 +94,7 @@ class AbmProducto {
    */
   public function modificacion($param) {
     $resp = false;
+    
     if ($this->seteadosCamposClaves($param)) {
       $obj = $this->cargarObjeto($param);
       if ($obj != null && $obj->modificar()) {
@@ -121,8 +124,10 @@ class AbmProducto {
         $where .= " and proprecio = {$param['proprecio']}";
       if (isset($param['propreciooferta']))
         $where .= " and propreciooferta = {$param['propreciooferta']}";
+      if (isset($param['prodeshabilitado']))
+        $where .= " and prodeshabilitado = {$param['prodeshabilitado']}";
       if (isset($param['busqueda']))
-        $where .= " and pronombre LIKE '%{$param["busqueda"]}%'";
+        $where .= " and pronombre LIKE '%{$param['busqueda']}%'";
     }
 
     $arreglo = Producto::listar($where);

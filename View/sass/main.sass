@@ -78,45 +78,49 @@ hr
   &:hover
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px
     transition: 2s ease
-/** Hober **/
-.lindo-hover::before
-  transform: scaleX(0)
-  transform-origin: bottom right
-
-.lindo-hover:hover::before
-  transform: scaleX(1)
-  transform-origin: bottom left
-
-.lindo-hover::before
-  content: " "
-  display: block
-  position: absolute
-  top: 0
-  right: 0
-  bottom: 0
-  left: 0
-  inset: 0 0 0 0
-  border: 1px solid #96061F
-  border-radius: 50px
-  z-index: -1
-
-.lindo-hover
-  position: relative
 
 .estado
   background-color: #ccc
   color: #f4f4f4
   border-radius: 50px
   font-size:
-  &-realizado
-    background-color: #3E7C17
   &-activo
-    background-color: #FBD148
-  &-espera
-    background-color: #ccc
+    background-color: #3E7C17
 
-/** .boton
- border: none
- width: 30px
- background-color: #ccc
+
+.fixedToast
+  position: fixed
+  bottom: 30px
+  right: 70px
+  z-index: 999
+
+.img-baja
+  filter: grayscale(100%)
+
+.mensaje-baja
+  position: absolute
+  z-index: 999
+
+
+/** .toast
+  margin-bottom: 1rem
+  color: #333
+  padding: 1rem
+  background-color: #ccc
+  width: 300px
+  text-align: center **/
+  /**   transition: opacity 0.2s, top 0.2s, visibility 0.2s
+/**   &--toast
+  &-added
+  border-left: 3px solid #39b385
+  &-error
+  border-left: 3px solid #e52a5a **/
+ 
+
+/**   input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button
+    -webkit-appearance: none
+    margin: 0
  **/
+/** input[type=number]
+  -moz-appearance: textfield **/

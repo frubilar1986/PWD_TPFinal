@@ -173,7 +173,7 @@ class CompraItem {
           $objproducto->setIdProducto($row['idproducto']);
           $objproducto->cargar();
 
-          $obj->setear($row['idcompraItem'], $objproducto, $objcompra, $row['cicantidad'], $row['cipreciototal']);
+          $obj->setear($row['idcompraitem'], $objproducto, $objcompra, $row['cicantidad'], $row['cipreciototal']);
 
           array_push($arreglo, $obj);
         }

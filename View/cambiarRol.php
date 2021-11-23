@@ -4,9 +4,9 @@ $data = data_submitted();
 $url = $_GET['url'];
 
 
-if (isset($data['idrol'])) {
-  $_SESSION['rol'] = $_GET['idrol'];
-}
 
 header("Status: 301 Moved Permanently");
-header("Location: $url");
+if (isset($data['idrol'])) {
+  $_SESSION['rol'] = $_GET['idrol'];
+  header("Location: $url");
+}
