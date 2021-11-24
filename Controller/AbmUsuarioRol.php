@@ -96,7 +96,7 @@ class AbmUsuarioRol {
   public function baja($datos) {
     $resp = false;
     if ($this->seteadosCamposClaves($datos)) {
-      $obj = $this->cargarObjetoConClave($datos);
+      $obj = $this->cargarObjeto($datos);
       if ($obj != null and $obj->eliminar()) {
         $resp = true;
       }

@@ -11,7 +11,6 @@ class AbmCompraEstado
   private function cargarObjeto($datos)
   {
     $obj = null;
-    // mostrarArray(($datos));
     if (
       array_key_exists('idcompraestado', $datos) &&
       array_key_exists('idcompra', $datos) &&
@@ -19,7 +18,6 @@ class AbmCompraEstado
       array_key_exists('cefechaini', $datos) &&
       array_key_exists('cefechafin', $datos)
     ) {
-      // echo 'in';
       $obj = new CompraEstado();
 
       $objCompra = new Compra();
@@ -73,10 +71,8 @@ class AbmCompraEstado
    */
   public function alta($datos)
   {
-    // echo "asd";
     $resp = false;
     $datos['idcompraestado'] = null;
-    // mostrarArray($datos);
     $obj = $this->cargarObjeto($datos);
     if ($obj != null and $obj->insertar()) {
       $resp = true;
@@ -110,15 +106,11 @@ class AbmCompraEstado
   public function modificacion($datos)
   {
     $resp = false;
-    // echo "1";
     if ($this->seteadosCamposClaves($datos)) {
-      // echo "2";
 
       $obj = $this->cargarObjeto($datos);
-      // print_r($obj);
       if ($obj != null and $obj->modificar()) {
         $resp = true;
-        echo "3";
       }
     }
     return $resp;

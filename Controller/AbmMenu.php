@@ -10,21 +10,31 @@ class AbmMenu {
   private function cargarObjeto($datos) {
     $obj = null;
 
-    if (
-      array_key_exists('idmenu', $datos) &&
-      array_key_exists('menombre', $datos) &&
-      array_key_exists('medescripcion', $datos) &&
-      array_key_exists('medeshabilitado', $datos)
-    ) {
+    if (array_key_exists('idmenu', $datos) && array_key_exists('menombre', $datos) &&  array_key_exists('medescripcion', $datos)) {
       $obj = new Menu();
-
-      if (isset($param['idpadre'])) {
+      $objPadre = null;
+      if (isset($datos['idpadre']) && $datos['idpadre'] != null) {
         $objPadre  = new Menu;
-        $objPadre->setIdMenu($param['idpadre']);
+        $objPadre->setIdMenu($datos['idpadre']);
         $objPadre->cargar();
-      } else {
-        $objPadre = null;
       }
+
+
+    // if (
+    //   array_key_exists('idmenu', $datos) &&
+    //   array_key_exists('menombre', $datos) &&
+    //   array_key_exists('medescripcion', $datos) &&
+    //   array_key_exists('medeshabilitado', $datos)
+    // ) {
+    //   $obj = new Menu();
+
+    //   if (isset($param['idpadre'])) {
+    //     $objPadre  = new Menu;
+    //     $objPadre->setIdMenu($param['idpadre']);
+    //     $objPadre->cargar();
+    //   } else {
+    //     $objPadre = null;
+    //   }
 
       $obj->setear($datos['idmenu'], $datos['menombre'], $datos['medescripcion'], $objPadre, $datos['medeshabilitado']);
     }
@@ -68,6 +78,7 @@ class AbmMenu {
   public function alta($datos) {
     $resp = false;
     $datos['idmenu'] = null;
+    $datos['medeshabilitado'] = date("Y-m-d H:i:s");
     $obj = $this->cargarObjeto($datos);
 
     if ($obj != null && $obj->insertar()) {
@@ -106,6 +117,25 @@ class AbmMenu {
       }
     }
     return $resp;
+  }
+  
+  function buscarIdPadre($data)
+  {
+    $resp = false;
+    if (isset($data['idpadre']) && !is_numeric($data['idpadre'])) {
+      $abmMenu = new AbmMenu;
+      $colMenusPadre = $abmMenu->buscar(null);
+      $x = 0;
+      while ($x < count($colMenusPadre) && !$resp) {
+        $menu = $colMenusPadre[$x];
+        if ($menu->getMeNombre() == $data['idpadre']) {
+          $data['idpadre'] = $menu->getIdMenu();
+          $resp = true;
+        }
+        $x++;
+      }
+    }
+    return $data;
   }
 
   /**

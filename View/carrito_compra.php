@@ -25,7 +25,6 @@ if (isset(data_submitted()["idproducto"])) {
       <p class="fs-3 mt-3">Carrito (<?= count($_SESSION["carrito"]) ?> productos)</p>
 
       <?php }
-    // mostrarArray($_SESSION);
     if (isset($_SESSION["carrito"])) {
       $controlProducto = new AbmProducto();
       $precioTotal = 0;
@@ -40,6 +39,7 @@ if (isset(data_submitted()["idproducto"])) {
         } else {
           $precioTotal += $producto[0]->getProPrecio() * $arrProducto["cantidadProducto"];
         }
+
       ?>
         <div class="compra d-flex justify-content-between mt-5">
           <!-- INFORMACION GENERAL DEL PRODUCTO -->
@@ -54,8 +54,7 @@ if (isset(data_submitted()["idproducto"])) {
             </div>
           </div>
           <!-- INPUT, CAMBIAR CANTIDAD -->
-          <div class="">
-
+          <div>
             <form class="needs-validation" novalidate action="cambiarCantidadAccion.php">
               <div class="formCantidad2 mb-3">
                 <!-- ID PRODUCTO OCULTO -->
@@ -67,18 +66,12 @@ if (isset(data_submitted()["idproducto"])) {
                   <div class="invalid-feedback">No hay stock suficiente.</div>
                 </div>
 
-
               </div>
               <button id="botonCambiar" type="submit" class="disabled btn btn-primary botonCambiar">Cambiar Cantidad</button>
             </form>
 
-
-
-            <!--    <div class="mb-3 d-flex ">
-              <input type="number" class="" id="cantidadProducto" placeholder="Cantidad: <?= $arrProducto["cantidadProducto"] ?>">
-            </div>
-            <a href="cambiarCantidadAccion.php?id=<?= $producto[0]->getIdProducto(); ?>&cantidad=<?= "a" ?>" id="cambiarCantidad" class="disabled btn btn-primary">Cambiar cantidad</a> -->
           </div>
+
           <!-- PRECIO -->
           <div class="precio">
             <p class="fw-bold">$<?php
@@ -112,7 +105,6 @@ if (isset(data_submitted()["idproducto"])) {
 
     <?php } ?>
 
-
   </div>
 
 </div>
@@ -123,7 +115,5 @@ if (isset(data_submitted()["idproducto"])) {
 
 
 <?php include_once './includes/footer.php' ?>
-<!-- <script defer src="./js/sumarCarrito.js"></script> -->
-<!-- <script defer src="./js/cerrarToastNotif.js"></script> -->
 <script defer src="./js/cambiarCantidad.js"></script>
 <script defer src="./js/validation.js"></script>

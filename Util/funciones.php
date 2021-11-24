@@ -134,12 +134,6 @@ function ordenarArregloUsuarios($array) {
   return $resultado;
 }
 
-// function isJson($string) {
-//   json_decode($string);
-//   return json_last_error() === JSON_ERROR_NONE;
-// }
-
-
 function strToCamelCase($string, $capitalizeFirstCharacter = false) {
   $str = str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
 

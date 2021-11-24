@@ -1,6 +1,7 @@
 <?php
 
-class Usuario {
+class Usuario
+{
 
   private $idusuario;
   private $usnombre;
@@ -11,7 +12,8 @@ class Usuario {
   private $colCompras;
   private $msjerror;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->idusuario = null;
     $this->usnombre = '';
     $this->uspass = '';
@@ -21,7 +23,8 @@ class Usuario {
     $this->colCompras = [];
   }
 
-  public function setear($idusuario, $usnombre, $uspass, $usmail, $usdeshabilitado) {
+  public function setear($idusuario, $usnombre, $uspass, $usmail, $usdeshabilitado)
+  {
     $this->setIdUsuario($idusuario);
     $this->setUsNombre($usnombre);
     $this->setUsPass($uspass);
@@ -29,42 +32,53 @@ class Usuario {
     $this->setUsDeshabilitado($usdeshabilitado);
   }
 
-  public function getIdUsuario() {
+  public function getIdUsuario()
+  {
     return $this->idusuario;
   }
-  public function setIdUsuario($idusuario) {
+  public function setIdUsuario($idusuario)
+  {
     $this->idusuario = $idusuario;
   }
 
-  public function getUsNombre() {
+  public function getUsNombre()
+  {
     return $this->usnombre;
   }
-  public function setUsNombre($usnombre) {
+  public function setUsNombre($usnombre)
+  {
     $this->usnombre = $usnombre;
   }
 
-  public function getUsPass() {
+  public function getUsPass()
+  {
     return $this->uspass;
   }
-  public function setUsPass($uspass) {
+  public function setUsPass($uspass)
+  {
     $this->uspass = $uspass;
   }
 
-  public function getUsMail() {
+  public function getUsMail()
+  {
     return $this->usmail;
   }
-  public function setUsMail($usmail) {
+  public function setUsMail($usmail)
+  {
     $this->usmail = $usmail;
   }
 
-  public function getUsDeshabilitado() {
+  public function getUsDeshabilitado()
+  {
     return $this->usdeshabilitado;
   }
-  public function setUsDeshabilitado($usDeshabli) {
+  public function setUsDeshabilitado($usDeshabli)
+  {
     $this->usdeshabilitado = $usDeshabli;
   }
 
-  public function getColRoles() {
+  public function getColRoles()
+  {
     if ($this->colRoles == []) {
       $ambUsuarioRol = new AbmUsuarioRol();
       $condicionRol['idusuario'] = $this->getIdUsuario();
@@ -80,11 +94,13 @@ class Usuario {
 
     return $this->colRoles;
   }
-  public function setColRoles($colRoles) {
+  public function setColRoles($colRoles)
+  {
     $this->colRoles = $colRoles;
   }
 
-  public function getColCompras() {
+  public function getColCompras()
+  {
     if ($this->colCompras == []) {
       $ambCompra = new AbmCompra();
       $condicionCompra['idusuario'] = $this->getIdUsuario();
@@ -95,18 +111,22 @@ class Usuario {
 
     return $this->colCompras;
   }
-  public function setColCompras($colCompras) {
+  public function setColCompras($colCompras)
+  {
     $this->colCompras = $colCompras;
   }
 
-  public function getMsjError() {
+  public function getMsjError()
+  {
     return $this->msjerror;
   }
-  public function setMsjError($msjerror) {
+  public function setMsjError($msjerror)
+  {
     $this->msjerror = $msjerror;
   }
 
-  public function cargar() {
+  public function cargar()
+  {
     $resp = false;
     $base = new DataBase();
     $sql = "SELECT * FROM usuario WHERE idusuario = {$this->getIdUsuario()}";
@@ -124,10 +144,20 @@ class Usuario {
     return $resp;
   }
 
-  public function insertar() {
+  public function insertar()
+  {
     $resp = false;
     $base = new DataBase();
-    $sql = "INSERT INTO usuario (usnombre, uspass, usmail, usdeshabilitado) VALUES ('{$this->getUsNombre()}','{$this->getUsPass()}','{$this->getUsMail()}','{$this->getUsDeshabilitado()}')";
+
+    if ($this->getUsDeshabilitado() != null) {
+      
+      $sql = "INSERT INTO usuario (usnombre, uspass, usmail, usdeshabilitado) VALUES ('{$this->getUsNombre()}','{$this->getUsPass()}','{$this->getUsMail()}','{$this->getUsDeshabilitado()}')";
+    } else {
+      
+      $sql = "INSERT INTO usuario (usnombre, uspass, usmail, usdeshabilitado) VALUES ('" . $this->getUsNombre() . "','" . $this->getUsPass() . "', '" . $this->getUsMail() . "', NULL )";
+    }
+
+    // $sql = "INSERT INTO usuario (usnombre, uspass, usmail, usdeshabilitado) VALUES ('{$this->getUsNombre()}','{$this->getUsPass()}','{$this->getUsMail()}','{$this->getUsDeshabilitado()}')";
 
     if ($base->Iniciar()) {
       if ($elId = $base->Ejecutar($sql)) {
@@ -143,16 +173,24 @@ class Usuario {
     return $resp;
   }
 
-  public function modificar() {
+  public function modificar()
+  {
     $resp = false;
     $base = new DataBase();
+    if ($this->getUsDeshabilitado() != NULL) {
 
-    $sql = "UPDATE usuario SET 
-      usnombre='{$this->getUsNombre()}', 
-      uspass='{$this->getUsPass()}', 
-      usmail='{$this->getUsMail()}', 
-      usdeshabilitado=" . (($this->getUsDeshabilitado() == '') ? "NULL" : ("'{$this->getUsDeshabilitado()}'")) . "
-      WHERE idusuario={$this->getIdUsuario()}";
+      $sql = "UPDATE usuario SET usnombre='" . $this->getUsNombre() . "', uspass='" . $this->getUsPass() . "', usmail= '" . $this->getUsMail() . "' , usdeshabilitado = '" . $this->getUsDeshabilitado() . "'  WHERE idusuario = " . $this->getIdUsuario();
+    } else {
+
+      $sql = "UPDATE usuario SET usnombre = '" . $this->getUsNombre() . "', uspass = '" . $this->getUsPass() . "', usmail = '" . $this->getUsMail() . "', usdeshabilitado = NULL WHERE idusuario = " . $this->getIdUsuario();
+    }
+
+    // $sql = "UPDATE usuario SET 
+    //   usnombre='{$this->getUsNombre()}', 
+    //   uspass='{$this->getUsPass()}', 
+    //   usmail='{$this->getUsMail()}', 
+    //   usdeshabilitado=" . (($this->getUsDeshabilitado() == '') ? "NULL" : ("'{$this->getUsDeshabilitado()}'")) . "
+    //   WHERE idusuario={$this->getIdUsuario()}";
 
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
@@ -166,7 +204,8 @@ class Usuario {
     return $resp;
   }
 
-  public function eliminar() {
+  public function eliminar()
+  {
     $resp = false;
     $base = new DataBase();
     $sql = "DELETE FROM usuario WHERE idusuario={$this->getIdUsuario()}";
@@ -182,7 +221,8 @@ class Usuario {
     return $resp;
   }
 
-  public static function listar($parametro = "") {
+  public static function listar($parametro = "")
+  {
     $arreglo = array();
     $base = new DataBase();
     $sql = "SELECT * FROM usuario ";

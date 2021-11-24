@@ -111,7 +111,8 @@ class UsuarioRol {
   public function eliminar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "DELETE FROM usuariorol WHERE idusuario = {$this->getObjUsuario()->getIdUsuario()}";
+    //$sql = "DELETE FROM usuariorol WHERE idusuario = {$this->getObjUsuario()->getIdUsuario()}";
+    $sql = "DELETE FROM usuariorol WHERE idusuario =". $this->getObjUsuario()->getIdUsuario()." and idrol= ". $this->getObjRol()->getIdRol();
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         return true;

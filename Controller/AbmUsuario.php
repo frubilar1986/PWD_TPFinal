@@ -34,7 +34,8 @@ class AbmUsuario {
 
     if (isset($datos['idusuario'])) {
       $obj = new Usuario();
-      $obj->setear($datos['idusuario'], null, null, null, null);
+      //$obj->setear($datos['idusuario'], null, null, null, null);
+      $obj->setear($datos['idusuario'], "", "", "", null);
     }
     return $obj;
   }

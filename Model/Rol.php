@@ -97,7 +97,7 @@ class Rol {
   public function modificar() {
     $resp = false;
     $base = new DataBase();
-    $sql = "UPDATE rol SET rodescripcion ={$this->getRoDescripcion()} WHERE idrol = {$this->getIdRol()}";
+    $sql = "UPDATE rol SET rodescripcion = '{$this->getRoDescripcion()}' WHERE idrol = {$this->getIdRol()}";
     if ($base->Iniciar()) {
       if ($base->Ejecutar($sql)) {
         $resp = true;

@@ -1,4 +1,3 @@
-
 function togglePass() {
   var elements = document.getElementsByClassName("pass-input");
 
