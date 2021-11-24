@@ -24,14 +24,14 @@ $arrBanner = array_diff(scandir($ROOT . "View/img/Banner"), array('..', '.'));
     <div class="carousel-inner">
 
       <div class="carousel-item active">
-        <img src="../View/img/Banner/<?= $arrBanner[2] ?>" alt="">
+        <img class="d-block w-100" src="../View/img/Banner/<?= $arrBanner[2] ?>" alt="">
         <?php unset($arrBanner[2]) ?>
       </div>
 
       <?php foreach ($arrBanner as $index => $banner) { ?>
 
         <div class="carousel-item">
-          <img src="../View/img/Banner/<?= $banner ?>" alt="">
+          <img class="d-block w-100" src="../View/img/Banner/<?= $banner ?>" alt="">
         </div>
 
       <?php } ?>
