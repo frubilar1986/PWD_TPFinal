@@ -20,7 +20,7 @@ $abmProducto->modificacion($datos);
 
 header("Status: 301 Moved Permanently");
 if (isset($data['v'])) {
-  header("Location: Estado Producto.php");
+  header("Location: estadoProducto.php");
 } else {
   header("Location: {$INICIO}");
 }

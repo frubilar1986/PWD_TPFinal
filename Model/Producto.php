@@ -131,7 +131,7 @@ class Producto {
     $base = new DataBase();
     $sql = "UPDATE producto SET
       pronombre = '{$this->getProNombre()}',
-      prodetalle = '" . str_replace("'", "''", $this->getProDetalle()) . "',
+      prodetalle = '" . str_replace("'", "", $this->getProDetalle()) . "',
       procantstock = {$this->getProCantStock()},
       proprecio = {$this->getProPrecio()},
       propreciooferta = " . (($this->getProPrecioOferta() == NULL) ? 'NULL' : "{$this->getProPrecioOferta()}") . ",

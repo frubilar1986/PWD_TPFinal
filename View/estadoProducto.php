@@ -6,16 +6,14 @@ include_once 'includes/navbar.php';
 
 $control = new ListarProductosControl();
 $productos = $control->listar();
-
 ?>
 
 
 <div class="container d-flex justify-content-center align-items-start text-center mt-5">
 
-  <?php if (isset($_SESSION['idusuario'])) { ?>
+  <?php if ($sesion->activa() && $sesion->getRolActual() == 2) { ?>
 
     <?php if (count($productos) > 0) { ?>
-
       <table class="table caption-top">
 
         <caption>
@@ -31,17 +29,19 @@ $productos = $control->listar();
             <th scope="col">Dar de baja</th>
           </tr>
         </thead>
+
         <tbody>
 
-          <?php $productos = ordenarArregloProductos($productos);
-          ?>
+          <?php $productos = ordenarArregloProductos($productos); ?>
 
           <?php foreach ($productos as $producto) {
             $textoDeshab = ($producto->getProDeshabilitado()) ? "class=\"text-black-50\"" : "";
             $fotoDeshab = ($producto->getProDeshabilitado()) ? "class=\"img-baja\"" : "";
-            $modelo = json_decode($producto->getProDetalle(), true)['marca'];
+            $modelo = (isset(json_decode($producto->getProDetalle(), true)['marca'])) ? json_decode($producto->getProDetalle(), true)['marca'] : 'Sin marca';
             $dirImg = md5($producto->getIdProducto());
             $img = scandir($ROOT . "view/img/Productos/" . $dirImg)[2];
+
+            
 
           ?>
 
@@ -50,12 +50,15 @@ $productos = $control->listar();
               <td <?= $fotoDeshab ?>>
                 <img class="<?= $fotoDeshab ?>" style="max-height:70px" src="<?= "./img/Productos/" . $dirImg . "/" . $img ?>">
               </td>
+
               <td <?= $textoDeshab ?>>
                 <p class="mt-4"><?= $modelo ?></p>
               </td>
+
               <td <?= $textoDeshab ?>>
                 <p class="mt-4"><?= $producto->getProNombre() ?></p>
               </td>
+
               <td <?= $textoDeshab ?>>
                 <p class="mt-4"><?= $producto->getProDeshabilitado() ?></p>
               </td>
@@ -70,9 +73,12 @@ $productos = $control->listar();
               </td>
 
             </tr>
+
           <?php } ?>
         </tbody>
+
       </table>
+
     <?php } else { ?>
       <div class="alert alert-danger d-flex align-items-center p-4" role="alert">
         <div>
@@ -80,6 +86,7 @@ $productos = $control->listar();
         </div>
       </div>
     <?php } ?>
+
   <?php } else { ?>
     <div class="alert alert-danger mt-20vh" role="alert">
       <h4 class="alert-heading">Esta pagina es solo para usuarios registrados</h4>

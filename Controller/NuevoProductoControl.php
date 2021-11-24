@@ -33,7 +33,7 @@ class NuevoProductoControl {
   function agregarProducto($data) {
     $ambProducto = new AbmProducto();
     if (!$ambProducto->buscar(['pronombre' => $data['pronombre']])) {
-      $data['prodeshabilitado'] = 'null';
+      $data['prodeshabilitado'] = null;
       $exito = $ambProducto->alta($data);
     } else {
       $exito = 'Ya existe un producto con este nombre';

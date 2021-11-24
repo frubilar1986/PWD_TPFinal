@@ -1,109 +1,155 @@
 <?php $title = 'Estado de Compra';
-include_once './includes/head.php';
-include_once "./includes/navbar.php";
+include_once './includes/head.php'; ?>
+<?php include_once "./includes/navbar.php"; ?>
+<?php
+/* Primero saco la/s compra/s con el idusuario */
+// mostrarArray($_SESSION);
+// echo $precioTotal;
 
 if (isset(data_submitted()["compraexitosa"])) {
-  if (data_submitted()["compraexitosa"]) { ?>
-    <div class="bg-success text-white">Compra realizada exitosamente</div>
-  <?php } else { ?>
-    <div class="bg-danger text-white">Compra realizada exitosamente</div>
+    if (data_submitted()["compraexitosa"]) {
+?>
+        <div class="bg-success text-white">Compra realizada exitosamente</div>
+    <?php } else {
+
+    ?>
+        <div class="bg-danger text-white">Compra realizada exitosamente</div>
+
 <?php
-  }
+    }
 }
 
 
-$abmCompra = new AbmCompra();
-$datos["idusuario"] = $_SESSION["idusuario"];
-$arrCompras = $abmCompra->buscar($datos);
 
+
+// mostrarArray($_SESSION);
+$abmCompra = new AbmCompra();
+if ($_SESSION["rol"] == 2) {
+    $arrCompras = $abmCompra->buscar("");
+} else {
+    $datos["idusuario"] = $_SESSION["idusuario"];
+    $arrCompras = $abmCompra->buscar($datos);
+}
+// mostrarArray($arrCompras);
 /* Saco los tipo de estado */
 $abmEstadoTipo = new AbmCompraEstadoTipo();
 $arrEstadoTipo = $abmEstadoTipo->buscar("");
+// mostrarArray($arrProductos);
 $abmCompraItem = new AbmCompraItem();
 ?>
 
 <h2 class="container my-5">Estado de Compra</h2>
 <div class="container">
-  <hr>
+    <hr>
 </div>
 <?php
 /* Despues saco el estado de la compra */
+// mostrarArray($arrCompras);
 foreach ($arrCompras as $compra) {
-  $precioTotal = 0;
-
-  $abmCompraEstado = new AbmCompraEstado();
-  $paramIdCompra["idcompra"] = $compra->getIdCompra();
-  $estado = $abmCompraEstado->buscar($paramIdCompra);
-  // mostrarArray($arrEstados);
-  $arrItems = $abmCompraItem->buscar($paramIdCompra);
+    $precioTotal = 0;
+    $abmCompraEstado = new AbmCompraEstado();
+    $paramIdCompra["idcompra"] = $compra->getIdCompra();
+    $estado = $abmCompraEstado->buscar($paramIdCompra);
+    // mostrarArray($arrEstados);
+    $arrItems = $abmCompraItem->buscar($paramIdCompra);
 ?>
-  <div class="container d-flex">
-    <div class="w-25">
-      <h5>Identificador de Compra: <?= $compra->getIdCompra(); ?></h5>
-      <p class="fw-bold">Estado Actual: <?php
+    <div class="container d-flex">
+        <div class="w-25">
+            <h5>Identificador de Compra: <?= $compra->getIdCompra(); ?></h5>
+            <?php
+            if ($_SESSION["rol"] == 2 && $compra->getObjUsuario()->getIdUsuario() != $_SESSION["rol"]) {
+                echo "<span class='mb-2 badge bg-primary'>ID Usuario: {$compra->getObjUsuario()->getIdUsuario()}</span>
+                ";
+                // echo "<p class='fw-bold'></p>";
+            }
+            ?>
+            <p class="fw-bold">Estado Actual: <?php
 
-                                        $idTipoEstado["idcompraestadotipo"] = $estado[0]->getObjCompraEstTipo()->getIdCompraEstTipo();
-                                        $tipoEstado = $abmEstadoTipo->buscar($idTipoEstado);
-                                        echo ucfirst($tipoEstado[0]->getCetDescripcion());
-                                        ?></p>
-      <p>Productos:
-        <?php
-        foreach ($arrItems as $item) {
+                                                $idTipoEstado["idcompraestadotipo"] = $estado[0]->getObjCompraEstTipo()->getIdCompraEstTipo();
+                                                $tipoEstado = $abmEstadoTipo->buscar($idTipoEstado);
+                                                echo ucfirst($tipoEstado[0]->getCetDescripcion());
+                                                ?></p>
+            <p>Productos:
+                <?php
+                foreach ($arrItems as $item) {
 
-          echo $item->getObjProducto()->getProNombre() . " ({$item->getCiCantidad()})";
-          if (next($arrItems)) {
-            echo ", ";
-          } else echo ".";
-        }
+                    echo $item->getObjProducto()->getProNombre() . " ({$item->getCiCantidad()})";
+                    if (next($arrItems)) {
+                        echo ", ";
+                    } else echo ".";
+                }
+                ?>
+
+            </p>
+            <p><?php
+
+                if ($item->getObjProducto()->getProPrecioOferta() != null) {
+                    echo "Total: $" . $precioTotal += $item->getObjProducto()->getProPrecioOferta() * $item->getCiCantidad();
+                } else {
+                    echo "Total: $" . $precioTotal += $item->getObjProducto()->getProPrecio() * $item->getCiCantidad();
+                } ?></p>
+
+        </div>
+        <div class="w-75 progreso d-flex align-items-center justify-content-center">
+            <ul class="p-0 ms-5 mt-5 d-flex ">
+                <div class="estado-1 d-flex flex-column">
+                    <p class="mb-3 estado <?php
+                                            if ($idTipoEstado["idcompraestadotipo"] == 1) { ?> estado-activo <?php } ?>text-center" style="width: 30px;">1</p>
+                    <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[0]->getCetDescripcion()); ?></li>
+                </div>
+                <div class="estado-1">
+                    <p class="mb-3 estado <?php
+                                            if ($idTipoEstado["idcompraestadotipo"] == 2) { ?> estado-activo <?php } ?>text-center" style="width: 30px;">2</p>
+                    <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[1]->getCetDescripcion()); ?></li>
+                </div>
+                <div class="estado-1">
+                    <p class="mb-3 estado <?php
+                                            if ($idTipoEstado["idcompraestadotipo"] == 3) { ?> estado-activo <?php } ?>text-center" style="width: 30px;">3</p>
+                    <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[2]->getCetDescripcion()); ?></li>
+                </div>
+                <div class="estado-1">
+                    <p class="mb-3 estado <?php
+                                            if ($idTipoEstado["idcompraestadotipo"] == 4) { ?> bg-danger <?php } ?>text-center" style="width: 30px;">4</p>
+                    <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[3]->getCetDescripcion()); ?></li>
+                </div>
+
+
+            </ul>
+        </div>
+        <?php 
+        
+        if ($_SESSION["rol"] == 2) {
+            
         ?>
+        <div class="d-flex flex-column justify-content-center align-items-center w-25">
+            <form class="d-flex flex-column justify-content-center align-items-center " action="./cambiarEstadoAccion.php" method="POST">
+                <select class="form-select" name="nuevoestado">
+                    <option selected>Cambiar estado</option>
+                    <option value="1">Iniciada</option>
+                    <option value="2">Aceptada</option>
+                    <option value="3">Enviada</option>
+                </select>
+                <input type="text" style="display: none;" value="<?= $compra->getIdCompra(); ?>" name="idcompra">
+                <button class="btn btn-primary mt-3" type="submit">Confirmar cambio</button>
+            </form>
+        </div>
+        <?php } ?>
+        <div class="ms-5 d-flex justify-content-center align-items-center" >
+            <form method="POST" action="./cancelarCompraAccion.php">
+                <input class="" style="display: none;" type="number" name="idcompracancelar" for="idcompracancelar" value='<?= $compra->getIdCompra() ?>'>
+                <button class="btn btn-danger" type="submit" <?php if ($idTipoEstado["idcompraestadotipo"] == 4) { ?> disabled <?php } ?>>Cancelar Compra</button>
+            </form>
+        </div>
 
-      </p>
-      <p><?php
-
-          if ($item->getObjProducto()->getProPrecioOferta() != null) {
-            echo "Total: $" . $precioTotal += $item->getObjProducto()->getProPrecioOferta() * $item->getCiCantidad();
-          } else {
-            echo "Total: $" . $precioTotal += $item->getObjProducto()->getProPrecio() * $item->getCiCantidad();
-          } ?></p>
 
     </div>
-    <div class="w-75 progreso">
-      <ul class="p-0 ms-5 mt-5 d-flex">
-        <div class="estado-1 d-flex flex-column">
-          <p class="mb-3 estado <?php
-                                if ($idTipoEstado["idcompraestadotipo"] == 1) { ?> estado-activo <?php } ?>text-center" style="width: 30px;">1</p>
-          <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[0]->getCetDescripcion()); ?></li>
-        </div>
-        <div class="estado-1">
-          <p class="mb-3 estado <?php
-                                if ($idTipoEstado["idcompraestadotipo"] == 2) { ?> estado-activo <?php } ?>text-center" style="width: 30px;">2</p>
-          <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[1]->getCetDescripcion()); ?></li>
-        </div>
-        <div class="estado-1">
-          <p class="mb-3 estado <?php
-                                if ($idTipoEstado["idcompraestadotipo"] == 3) { ?>  <?php } ?>text-center" style="width: 30px;">3</p>
-          <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[2]->getCetDescripcion()); ?></li>
-        </div>
-        <div class="estado-1">
-          <p class="mb-3 estado <?php
-                                if ($idTipoEstado["idcompraestadotipo"] == 4) { ?> bg-danger <?php } ?>text-center" style="width: 30px;">4</p>
-          <li class="w-100" style="margin: 0 120px 0 0"><?= ucfirst($arrEstadoTipo[3]->getCetDescripcion()); ?></li>
-        </div>
-
-
-      </ul>
+    <div class="container">
+        <hr>
     </div>
-    <div class="d-flex justify-content-center align-items-center">
-      <form method="POST" action="./cancelarCompraAccion.php">
-        <input class="" style="display: none;" type="number" name="idcompracancelar" for="idcompracancelar" value='<?= $compra->getIdCompra() ?>'>
-        <button class="btn btn-danger" type="submit" <?php if ($idTipoEstado["idcompraestadotipo"] == 4) { ?> disabled <?php } ?>>Cancelar Compra</button>
-      </form>
-    </div>
-  </div>
-
-<?php } ?>
+<?php
+} ?>
 <div class="container" style="margin-top: 100px;">
-  <hr>
+    <hr>
 </div>
 
 <?php include_once "./includes/footer.php"; ?>

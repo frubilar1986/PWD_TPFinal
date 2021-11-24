@@ -1,6 +1,8 @@
 <?php $title = 'Realizar Compra';
 include_once './includes/head.php'; ?>
 
+
+
 <?php
 if (count($_SESSION["carrito"]) > 0) {
    $compraExitosa = false;
@@ -78,6 +80,6 @@ if (count($_SESSION["carrito"]) > 0) {
       }
    } else $compraExitosa = false;
 } else $compraExitosa = false;
-header('Location: http://localhost/PWD_TPFinal/View/estado_compra.php?compraexitosa='.$compraExitosa);
+header('Location: estado_compra.php?compraexitosa='.$compraExitosa);
 
 ?>

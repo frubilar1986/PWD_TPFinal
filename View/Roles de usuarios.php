@@ -2,7 +2,7 @@
 include_once('../config.php');
 $sesion = new Session();
 if (!$sesion->activa() || $_SESSION['rol'] != 1) {
-    header('location:login.php');
+    header('location: login.php');
 }
 include_once './includes/headJui.php';
 ?>

@@ -21,4 +21,4 @@ var_dump($datos);
 $abmProducto->modificacion($datos);
 
 header("Status: 301 Moved Permanently");
-header("Location: Stock.php");
+header("Location: stock.php");
