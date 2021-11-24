@@ -57,7 +57,7 @@ $productos = $control->listar();
                   <p class="mt-4"><?= $producto->getProNombre() ?></p>
                 </td>
 
-                <form action="./stockProductoAccion.php?id=<?= $producto->getIdProducto() ?>">
+                <form action="./stockAccion.php?id=<?= $producto->getIdProducto() ?>">
 
                   <td>
                     <div class="d-flex justify-content-center">

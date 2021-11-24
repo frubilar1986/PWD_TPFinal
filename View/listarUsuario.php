@@ -14,7 +14,7 @@ $usuarioEsRol = $controlLU->esRol();
 
 <div class="container d-flex justify-content-center align-items-start text-center mt-5">
 
-  <?php if (isset($_SESSION['idusuario'])) { ?>
+  <?php if ($sesion->activa()) { ?>
 
     <?php if (count($listaUsuarios) > 0) { ?>
 
@@ -89,9 +89,5 @@ $usuarioEsRol = $controlLU->esRol();
   <?php } ?>
 
 </div>
-
-
-
-<!-- <script src="js/validation.js"></script> -->
 
 <?php include_once 'includes/footer.php' ?>

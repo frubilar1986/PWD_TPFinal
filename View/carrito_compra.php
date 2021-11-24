@@ -40,8 +40,6 @@ if (isset(data_submitted()["idproducto"])) {
         } else {
           $precioTotal += $producto[0]->getProPrecio() * $arrProducto["cantidadProducto"];
         }
-
-        // mostrarArray($producto);
       ?>
         <div class="compra d-flex justify-content-between mt-5">
           <!-- INFORMACION GENERAL DEL PRODUCTO -->
@@ -57,8 +55,6 @@ if (isset(data_submitted()["idproducto"])) {
           </div>
           <!-- INPUT, CAMBIAR CANTIDAD -->
           <div class="">
-
-
 
             <form class="needs-validation" novalidate action="cambiarCantidadAccion.php">
               <div class="formCantidad2 mb-3">
@@ -103,8 +99,7 @@ if (isset(data_submitted()["idproducto"])) {
     }
 
     /* NOTIFICACION DE QUE EL PRODUCTO YA SE ENCUENTRA EN EL CARRITO  */
-    if (isset($resp) && $resp) {
-      ?>
+    if (isset($resp) && $resp) { ?>
 
       <div id="toastNotif" class="toast fixedToast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true" style="display: block;">
         <div class="d-flex">
@@ -115,18 +110,14 @@ if (isset(data_submitted()["idproducto"])) {
         </div>
       </div>
 
-    <?php
-    }
-
-
-    ?>
+    <?php } ?>
 
 
   </div>
 
 </div>
 <div class="container  ">
-  <a href="confirmarCompra.php"  class="btn <?php if(count($_SESSION["carrito"])<1) {?> disabled <?php } ?> btn-primary" type="submit">Comprar</a>
+  <a href="confirmarCompra.php" class="btn <?php if (count($_SESSION["carrito"]) < 1) { ?> disabled <?php } ?> btn-primary" type="submit">Comprar</a>
 </div>
 
 
