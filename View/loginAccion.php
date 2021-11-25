@@ -9,10 +9,22 @@ $sesion = $control->logear();
 if ($sesion != null && $sesion->getObjUsuario() != null ) {
   if ($sesion->activa() and !$sesion->getObjUsuario()->getUsDeshabilitado()) {
     $rolesUsuario = $sesion->getColRoles();
+    //modificacion Francisco
+    if(empty($rolesUsuario) ){
+
+          header("Status: 301 Moved Permanently");
+          header("Location: " . $LOGIN . "?error=3");
+        }else{
+
+          $_SESSION['rol'] = $rolesUsuario[0]->getIdRol();
+          header("Status: 301 Moved Permanently");
+          header("Location: $INICIO");
+        }
+    //fin mod franciosco
     // echo "sesion activa y usuario no deshabilitado";
-    $_SESSION['rol'] = $rolesUsuario[0]->getIdRol();
-    header("Status: 301 Moved Permanently");
-    header("Location: $INICIO");
+//     $_SESSION['rol'] = $rolesUsuario[0]->getIdRol();
+//     header("Status: 301 Moved Permanently");
+//     header("Location: $INICIO");
   } elseif ($sesion->getObjUsuario()->getUsDeshabilitado()) {
     // echo "sesion activa y usuario deshabilitado";
     header("Status: 301 Moved Permanently");
